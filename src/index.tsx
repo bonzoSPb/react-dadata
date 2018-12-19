@@ -1,13 +1,6 @@
 import * as React from 'react';
 import * as Highlighter from 'react-highlight-words';
 import './react-dadata.css';
-
-// declare module 'react' {
-//      interface DetailedHTMLProps<T> {
-//         validate?: (value: string) => void
-//     }
-// }
-
 declare module 'react' {
      interface InputHTMLAttributes<T> {
         validate?: (value: string) => void
@@ -19,7 +12,6 @@ export namespace ReactDadata {
     unrestricted_value: string
     data: DadataAddress
   }
-
   export type DadataAddress = {
     area: string
     area_fias_id: string
@@ -96,7 +88,6 @@ export namespace ReactDadata {
     timezone: null
     unparsed_parts: null
   }
-
   export interface Props  {
     token: string
     placeholder?: string
@@ -105,6 +96,9 @@ export namespace ReactDadata {
     onChange?: (suggestion: DadataSuggestion) => void
     autocomplete?: string
     validate?: (value: string) => void
+    bounds: string
+    name: string
+    disabled: boolean
   }
 
   export interface State {
@@ -211,7 +205,13 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     this.xhr.setRequestHeader("Content-Type", "application/json");
     this.xhr.send(JSON.stringify({
       query: this.state.query,
-      count: 10
+      count: 10,
+      to_bound: {
+          value: this.props.bounds,
+      },
+      from_bound: {
+          value: this.props.bounds,
+      },
     }));
 
     this.xhr.onreadystatechange = () => {
@@ -280,6 +280,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
                  onBlur={this.onInputBlur}
                  validate={this.props.validate}
                  autoComplete={this.props.autocomplete ? this.props.autocomplete : 'off'}
+                 name={this.props.name}
+                 disabled={this.props.disabled}
           />
         </div>
         {this.state.inputFocused && this.state.suggestionsVisible && this.state.suggestions && this.state.suggestions.length > 0 && <div className="react-dadata__suggestions">
