@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vitalybaev/react-dadata.git"
+    "url": "git+https://github.com/bonzoSPb/react-dadata.git"
   },
   "keywords": [
     "react",
@@ -22,9 +22,9 @@
   "author": "Vitaly Baev <hello@vitalybaev.ru>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vitalybaev/react-dadata/issues"
+    "url": "https://github.com/bonzoSPb/react-dadata/issues"
   },
-  "homepage": "https://github.com/vitalybaev/react-dadata#readme",
+  "homepage": "https://github.com/bonzoSPb/react-dadata#readme",
   "dependencies": {
     "react-highlight-words": "^0.8.1"
   },
