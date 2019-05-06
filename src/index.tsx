@@ -99,6 +99,7 @@ export namespace ReactDadata {
     bounds: string
     name: string
     disabled: boolean
+    required: boolean
   }
 
   export interface State {
@@ -282,6 +283,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
                  autoComplete={this.props.autocomplete ? this.props.autocomplete : 'off'}
                  name={this.props.name}
                  disabled={this.props.disabled}
+                 required={this.props.required}
           />
         </div>
         {this.state.inputFocused && this.state.suggestionsVisible && this.state.suggestions && this.state.suggestions.length > 0 && <div className="react-dadata__suggestions">

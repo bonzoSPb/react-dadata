@@ -99,6 +99,7 @@ export declare namespace ReactDadata {
         bounds: string;
         name: string;
         disabled: boolean;
+        required: boolean;
     }
     interface State {
         query: string;
