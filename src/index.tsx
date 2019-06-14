@@ -100,6 +100,7 @@ export namespace ReactDadata {
     name: string
     disabled: boolean
     required: boolean
+    className: string
   }
 
   export interface State {
@@ -270,7 +271,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     return (
       <div className="react-dadata react-dadata__container">
         <div>
-          <input className="react-dadata__input"
+          <input className={`react-dadata__input ${this.props.className}`}
                  placeholder={this.props.placeholder ? this.props.placeholder : ''}
                  value={this.state.query}
                  ref={ (input) => { this.textInput = input as HTMLInputElement; } }
