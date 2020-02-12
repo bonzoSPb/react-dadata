@@ -147,7 +147,7 @@ var ReactDadata = (function (_super) {
     };
     ;
     ReactDadata.getDerivedStateFromProps = function (props, state) {
-        if (props.query !== state.query) {
+        if (props.query !== state.query && state.query === '' && state.inputQuery !== '') {
             return {
                 query: props.query,
             };
