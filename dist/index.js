@@ -146,6 +146,14 @@ var ReactDadata = (function (_super) {
         }
     };
     ;
+    ReactDadata.getDerivedStateFromProps = function (props, state) {
+        if (props.query !== state.query) {
+            return {
+                query: props.query,
+            };
+        }
+        return null;
+    };
     ReactDadata.prototype.render = function () {
         var _this = this;
         return (React.createElement("div", { className: "react-dadata react-dadata__container" },

@@ -146,6 +146,15 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
   };
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.query !== state.query) {
+      return {
+        query: props.query,
+      };
+    }
+    return null;
+  }
+
   onInputFocus = () => {
     this.setState({inputFocused: true});
     if (this.state.suggestions.length == 0) {

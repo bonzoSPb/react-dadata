@@ -123,6 +123,9 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     protected xhr: XMLHttpRequest;
     constructor(props: ReactDadata.Props);
     componentDidMount(): void;
+    static getDerivedStateFromProps(props: any, state: any): {
+        query: any;
+    } | null;
     onInputFocus: () => void;
     onInputBlur: () => void;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
