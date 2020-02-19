@@ -146,13 +146,10 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
   };
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.query !== state.query && state.query === '' && state.inputQuery !== '') {
-      return {
-        query: props.query,
-      };
+  componentDidUpdate(prevProps) {
+    if (this.props.query !== prevProps.query) {
+      this.setState({ query: this.props.query ? this.props.query : '' });
     }
-    return null;
   }
 
   onInputFocus = () => {

@@ -146,13 +146,10 @@ var ReactDadata = (function (_super) {
         }
     };
     ;
-    ReactDadata.getDerivedStateFromProps = function (props, state) {
-        if (props.query !== state.query && state.query === '' && state.inputQuery !== '') {
-            return {
-                query: props.query,
-            };
+    ReactDadata.prototype.componentDidUpdate = function (prevProps) {
+        if (this.props.query !== prevProps.query) {
+            this.setState({ query: this.props.query ? this.props.query : '' });
         }
-        return null;
     };
     ReactDadata.prototype.render = function () {
         var _this = this;
