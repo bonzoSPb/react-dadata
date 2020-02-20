@@ -13,6 +13,9 @@ export declare namespace ReactDadata {
         data: DadataAddress;
     };
     type DadataAddress = {
+        address: {
+            value: string;
+        };
         area: string;
         area_fias_id: string;
         area_kladr_id: string;

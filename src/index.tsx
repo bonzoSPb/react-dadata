@@ -13,6 +13,7 @@ export namespace ReactDadata {
     data: DadataAddress
   }
   export type DadataAddress = {
+    address: { value: string }
     area: string
     area_fias_id: string
     area_kladr_id: string
@@ -360,7 +361,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
             if (this.props.suggestionType === 'bank') {
 
             }
-            return <div key={suggestion.value} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/>{this.props.suggestionType === 'bank' && (<div className="react-dadata__suggestion_subtext">{suggestion.data.bic}</div>)}</div>
+            return <div key={suggestion.value} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/>{this.props.suggestionType === 'bank' && (<div className="react-dadata__suggestion_subtext">{suggestion.data.bic} {suggestion.data.address.value}</div>)}</div>
           })}
         </div>}
       </div>

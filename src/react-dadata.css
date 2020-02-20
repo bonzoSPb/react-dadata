@@ -55,3 +55,7 @@
 .react-dadata--highlighted {
   color: #E5841C;
 }
+
+.react-dadata__suggestion__subtext {
+  color: #828282;
+}

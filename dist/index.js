@@ -216,7 +216,10 @@ var ReactDadata = (function (_super) {
                     }
                     return React.createElement("div", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                         React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }),
-                        _this.props.suggestionType === 'bank' && (React.createElement("div", { className: "react-dadata__suggestion_subtext" }, suggestion.data.bic)));
+                        _this.props.suggestionType === 'bank' && (React.createElement("div", { className: "react-dadata__suggestion_subtext" },
+                            suggestion.data.bic,
+                            " ",
+                            suggestion.data.address.value)));
                 }))));
     };
     return ReactDadata;
