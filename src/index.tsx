@@ -58,8 +58,15 @@ export namespace ReactDadata {
     house_kladr_id: string
     house_type: string
     house_type_full: string
+    inn: string
     kladr_id: string
+    kpp: string
+    management: {
+      name: string
+      post: string
+    }
     name: string
+    ogrn: string
     okato: string
     oktmo: string
     postal_box: string
@@ -210,40 +217,6 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
   };
 
-  fetchSuggestionsOld = () => {
-    if (this.xhr) {
-      this.xhr.abort();
-    }
-    this.xhr = new XMLHttpRequest();
-    this.xhr.open("POST", "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address?5");
-    this.xhr.setRequestHeader("Accept", "application/json");
-    this.xhr.setRequestHeader("Authorization", `Token ${this.props.token}`);
-    this.xhr.setRequestHeader("Content-Type", "application/json");
-    this.xhr.send(JSON.stringify({
-      query: this.state.query,
-      count: 10,
-      to_bound: {
-        value: this.props.bounds,
-      },
-      from_bound: {
-        value: this.props.bounds,
-      },
-    }));
-
-    this.xhr.onreadystatechange = () => {
-      if (this.xhr.readyState != 4) {
-        return;
-      }
-
-      if (this.xhr.status == 200) {
-        const responseJson = JSON.parse(this.xhr.response);
-        if (responseJson && responseJson.suggestions) {
-          this.setState({suggestions: responseJson.suggestions, suggestionIndex: -1});
-        }
-      }
-    };
-  };
-
   fetchSuggestions = () => {
     if (this.xhr) {
       this.xhr.abort();
@@ -258,6 +231,11 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       };
     } else if (this.props.suggestionType === 'fms') {
       url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit";
+      params = {
+        query: this.state.query,
+      };
+    } else if (this.props.suggestionType === 'party') {
+      url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";
       params = {
         query: this.state.query,
       };
@@ -358,7 +336,13 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
             if (index == this.state.suggestionIndex) {
               suggestionClass += ' react-dadata__suggestion--current';
             }
-            return <div key={suggestion.value} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/>{this.props.suggestionType === 'bank' && (<div className="react-dadata__suggestion__subtext"><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.bic}/> <Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.address.value}/></div>)}</div>
+            if (this.props.suggestionType === 'bank') {
+              return <div key={suggestion.value} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/><div className="react-dadata__suggestion__subtext"><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.bic}/> <Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.address.value}/></div></div>
+            } else if (this.props.suggestionType === 'party') {
+              return <div key={suggestion.value} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/><div className="react-dadata__suggestion__subtext"><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.inn}/> <Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.address.value}/></div></div>
+            } else {
+              return <div key={suggestion.value} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
+            }
           })}
         </div>}
       </div>

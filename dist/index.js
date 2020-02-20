@@ -66,37 +66,6 @@ var ReactDadata = (function (_super) {
                 }
             }
         };
-        _this.fetchSuggestionsOld = function () {
-            if (_this.xhr) {
-                _this.xhr.abort();
-            }
-            _this.xhr = new XMLHttpRequest();
-            _this.xhr.open("POST", "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address?5");
-            _this.xhr.setRequestHeader("Accept", "application/json");
-            _this.xhr.setRequestHeader("Authorization", "Token " + _this.props.token);
-            _this.xhr.setRequestHeader("Content-Type", "application/json");
-            _this.xhr.send(JSON.stringify({
-                query: _this.state.query,
-                count: 10,
-                to_bound: {
-                    value: _this.props.bounds,
-                },
-                from_bound: {
-                    value: _this.props.bounds,
-                },
-            }));
-            _this.xhr.onreadystatechange = function () {
-                if (_this.xhr.readyState != 4) {
-                    return;
-                }
-                if (_this.xhr.status == 200) {
-                    var responseJson = JSON.parse(_this.xhr.response);
-                    if (responseJson && responseJson.suggestions) {
-                        _this.setState({ suggestions: responseJson.suggestions, suggestionIndex: -1 });
-                    }
-                }
-            };
-        };
         _this.fetchSuggestions = function () {
             if (_this.xhr) {
                 _this.xhr.abort();
@@ -112,6 +81,12 @@ var ReactDadata = (function (_super) {
             }
             else if (_this.props.suggestionType === 'fms') {
                 url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit";
+                params = {
+                    query: _this.state.query,
+                };
+            }
+            else if (_this.props.suggestionType === 'party') {
+                url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";
                 params = {
                     query: _this.state.query,
                 };
@@ -212,12 +187,26 @@ var ReactDadata = (function (_super) {
                     if (index == _this.state.suggestionIndex) {
                         suggestionClass += ' react-dadata__suggestion--current';
                     }
-                    return React.createElement("div", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
-                        React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }),
-                        _this.props.suggestionType === 'bank' && (React.createElement("div", { className: "react-dadata__suggestion__subtext" },
-                            React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.bic }),
-                            " ",
-                            React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address.value }))));
+                    if (_this.props.suggestionType === 'bank') {
+                        return React.createElement("div", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                            React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }),
+                            React.createElement("div", { className: "react-dadata__suggestion__subtext" },
+                                React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.bic }),
+                                " ",
+                                React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address.value })));
+                    }
+                    else if (_this.props.suggestionType === 'party') {
+                        return React.createElement("div", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                            React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }),
+                            React.createElement("div", { className: "react-dadata__suggestion__subtext" },
+                                React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.inn }),
+                                " ",
+                                React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address.value })));
+                    }
+                    else {
+                        return React.createElement("div", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                            React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
+                    }
                 }))));
     };
     return ReactDadata;

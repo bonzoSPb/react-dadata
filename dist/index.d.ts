@@ -60,8 +60,15 @@ export declare namespace ReactDadata {
         house_kladr_id: string;
         house_type: string;
         house_type_full: string;
+        inn: string;
         kladr_id: string;
+        kpp: string;
+        management: {
+            name: string;
+            post: string;
+        };
         name: string;
+        ogrn: string;
         okato: string;
         oktmo: string;
         postal_box: string;
@@ -138,7 +145,6 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     onInputBlur: () => void;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-    fetchSuggestionsOld: () => void;
     fetchSuggestions: () => void;
     onSuggestionClick: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
     selectSuggestion: (index: number) => void;
