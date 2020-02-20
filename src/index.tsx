@@ -21,6 +21,7 @@ export namespace ReactDadata {
     area_with_type: string
     beltway_distance: null
     beltway_hit: null
+    bic: string
     block: string
     block_type: string
     block_type_full: string
@@ -40,6 +41,7 @@ export namespace ReactDadata {
     city_with_type: string
     country: string
     code: string
+    correspondent_account: string
     fias_id: string
     fias_level: string
     flat: string
@@ -248,7 +250,12 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     this.xhr = new XMLHttpRequest();
     let url;
     let params;
-    if (this.props.suggestionType === 'fms') {
+    if (this.props.suggestionType === 'bank') {
+      url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/bank";
+      params = {
+        query: this.state.query,
+      };
+    } else if (this.props.suggestionType === 'fms') {
       url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit";
       params = {
         query: this.state.query,

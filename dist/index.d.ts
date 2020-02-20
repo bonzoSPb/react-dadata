@@ -21,6 +21,7 @@ export declare namespace ReactDadata {
         area_with_type: string;
         beltway_distance: null;
         beltway_hit: null;
+        bic: string;
         block: string;
         block_type: string;
         block_type_full: string;
@@ -40,6 +41,7 @@ export declare namespace ReactDadata {
         city_with_type: string;
         country: string;
         code: string;
+        correspondent_account: string;
         fias_id: string;
         fias_level: string;
         flat: string;

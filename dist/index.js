@@ -104,7 +104,13 @@ var ReactDadata = (function (_super) {
             _this.xhr = new XMLHttpRequest();
             var url;
             var params;
-            if (_this.props.suggestionType === 'fms') {
+            if (_this.props.suggestionType === 'bank') {
+                url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/bank";
+                params = {
+                    query: _this.state.query,
+                };
+            }
+            else if (_this.props.suggestionType === 'fms') {
                 url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit";
                 params = {
                     query: _this.state.query,
