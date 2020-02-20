@@ -202,7 +202,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
   };
 
-  fetchSuggestions = () => {
+  fetchSuggestionsOld = () => {
     if (this.xhr) {
       this.xhr.abort();
     }
@@ -215,11 +215,38 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       query: this.state.query,
       count: 10,
       to_bound: {
-          value: this.props.bounds,
+        value: this.props.bounds,
       },
       from_bound: {
-          value: this.props.bounds,
+        value: this.props.bounds,
       },
+    }));
+
+    this.xhr.onreadystatechange = () => {
+      if (this.xhr.readyState != 4) {
+        return;
+      }
+
+      if (this.xhr.status == 200) {
+        const responseJson = JSON.parse(this.xhr.response);
+        if (responseJson && responseJson.suggestions) {
+          this.setState({suggestions: responseJson.suggestions, suggestionIndex: -1});
+        }
+      }
+    };
+  };
+
+  fetchSuggestions = () => {
+    if (this.xhr) {
+      this.xhr.abort();
+    }
+    this.xhr = new XMLHttpRequest();
+    this.xhr.open("POST", "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit\n");
+    this.xhr.setRequestHeader("Accept", "application/json");
+    this.xhr.setRequestHeader("Authorization", `Token ${this.props.token}`);
+    this.xhr.setRequestHeader("Content-Type", "application/json");
+    this.xhr.send(JSON.stringify({
+      query: this.state.query,
     }));
 
     this.xhr.onreadystatechange = () => {

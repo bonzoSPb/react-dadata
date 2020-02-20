@@ -66,7 +66,7 @@ var ReactDadata = (function (_super) {
                 }
             }
         };
-        _this.fetchSuggestions = function () {
+        _this.fetchSuggestionsOld = function () {
             if (_this.xhr) {
                 _this.xhr.abort();
             }
@@ -84,6 +84,30 @@ var ReactDadata = (function (_super) {
                 from_bound: {
                     value: _this.props.bounds,
                 },
+            }));
+            _this.xhr.onreadystatechange = function () {
+                if (_this.xhr.readyState != 4) {
+                    return;
+                }
+                if (_this.xhr.status == 200) {
+                    var responseJson = JSON.parse(_this.xhr.response);
+                    if (responseJson && responseJson.suggestions) {
+                        _this.setState({ suggestions: responseJson.suggestions, suggestionIndex: -1 });
+                    }
+                }
+            };
+        };
+        _this.fetchSuggestions = function () {
+            if (_this.xhr) {
+                _this.xhr.abort();
+            }
+            _this.xhr = new XMLHttpRequest();
+            _this.xhr.open("POST", "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit\n");
+            _this.xhr.setRequestHeader("Accept", "application/json");
+            _this.xhr.setRequestHeader("Authorization", "Token " + _this.props.token);
+            _this.xhr.setRequestHeader("Content-Type", "application/json");
+            _this.xhr.send(JSON.stringify({
+                query: _this.state.query,
             }));
             _this.xhr.onreadystatechange = function () {
                 if (_this.xhr.readyState != 4) {
