@@ -39,6 +39,7 @@ export namespace ReactDadata {
     city_type_full: string
     city_with_type: string
     country: string
+    code: string
     fias_id: string
     fias_level: string
     flat: string
@@ -55,6 +56,7 @@ export namespace ReactDadata {
     house_type: string
     house_type_full: string
     kladr_id: string
+    name: string
     okato: string
     oktmo: string
     postal_box: string
@@ -64,6 +66,7 @@ export namespace ReactDadata {
     qc_geo: "0" | "1" | "2" | "3" | "4" | "5"
     qc_house: null
     region: string
+    region_code: string
     region_fias_id: string
     region_kladr_id: string
     region_type: string
@@ -85,6 +88,7 @@ export namespace ReactDadata {
     street_with_type: string
     tax_office: string
     tax_office_legal: string
+    type: "0" | "1" | "2" | "3"
     timezone: null
     unparsed_parts: null
   }
@@ -101,6 +105,7 @@ export namespace ReactDadata {
     disabled: boolean
     required: boolean
     className: string
+    suggestionType: string
   }
 
   export interface State {
@@ -241,13 +246,31 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       this.xhr.abort();
     }
     this.xhr = new XMLHttpRequest();
-    this.xhr.open("POST", "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit\n");
+    let url;
+    let params;
+    if (this.props.suggestionType === 'fms') {
+      url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit";
+      params = {
+        query: this.state.query,
+      };
+    } else {
+      url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address?5";
+      params = {
+        query: this.state.query,
+        count: 10,
+        to_bound: {
+          value: this.props.bounds,
+        },
+        from_bound: {
+          value: this.props.bounds,
+        },
+      };
+    }
+    this.xhr.open("POST", url);
     this.xhr.setRequestHeader("Accept", "application/json");
     this.xhr.setRequestHeader("Authorization", `Token ${this.props.token}`);
     this.xhr.setRequestHeader("Content-Type", "application/json");
-    this.xhr.send(JSON.stringify({
-      query: this.state.query,
-    }));
+    this.xhr.send(JSON.stringify(params));
 
     this.xhr.onreadystatechange = () => {
       if (this.xhr.readyState != 4) {

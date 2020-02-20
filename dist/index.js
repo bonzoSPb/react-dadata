@@ -102,13 +102,32 @@ var ReactDadata = (function (_super) {
                 _this.xhr.abort();
             }
             _this.xhr = new XMLHttpRequest();
-            _this.xhr.open("POST", "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit\n");
+            var url;
+            var params;
+            if (_this.props.suggestionType === 'fms') {
+                url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit";
+                params = {
+                    query: _this.state.query,
+                };
+            }
+            else {
+                url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address?5";
+                params = {
+                    query: _this.state.query,
+                    count: 10,
+                    to_bound: {
+                        value: _this.props.bounds,
+                    },
+                    from_bound: {
+                        value: _this.props.bounds,
+                    },
+                };
+            }
+            _this.xhr.open("POST", url);
             _this.xhr.setRequestHeader("Accept", "application/json");
             _this.xhr.setRequestHeader("Authorization", "Token " + _this.props.token);
             _this.xhr.setRequestHeader("Content-Type", "application/json");
-            _this.xhr.send(JSON.stringify({
-                query: _this.state.query,
-            }));
+            _this.xhr.send(JSON.stringify(params));
             _this.xhr.onreadystatechange = function () {
                 if (_this.xhr.readyState != 4) {
                     return;

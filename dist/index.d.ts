@@ -39,6 +39,7 @@ export declare namespace ReactDadata {
         city_type_full: string;
         city_with_type: string;
         country: string;
+        code: string;
         fias_id: string;
         fias_level: string;
         flat: string;
@@ -55,6 +56,7 @@ export declare namespace ReactDadata {
         house_type: string;
         house_type_full: string;
         kladr_id: string;
+        name: string;
         okato: string;
         oktmo: string;
         postal_box: string;
@@ -64,6 +66,7 @@ export declare namespace ReactDadata {
         qc_geo: "0" | "1" | "2" | "3" | "4" | "5";
         qc_house: null;
         region: string;
+        region_code: string;
         region_fias_id: string;
         region_kladr_id: string;
         region_type: string;
@@ -85,6 +88,7 @@ export declare namespace ReactDadata {
         street_with_type: string;
         tax_office: string;
         tax_office_legal: string;
+        type: "0" | "1" | "2" | "3";
         timezone: null;
         unparsed_parts: null;
     };
@@ -101,6 +105,7 @@ export declare namespace ReactDadata {
         disabled: boolean;
         required: boolean;
         className: string;
+        suggestionType: string;
     }
     interface State {
         query: string;
