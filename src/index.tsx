@@ -358,10 +358,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
             if (index == this.state.suggestionIndex) {
               suggestionClass += ' react-dadata__suggestion--current';
             }
-            if (this.props.suggestionType === 'bank') {
-
-            }
-            return <div key={suggestion.value} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/>{this.props.suggestionType === 'bank' && (<div className="react-dadata__suggestion_subtext">{suggestion.data.bic} {suggestion.data.address.value}</div>)}</div>
+            return <div key={suggestion.value} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/>{this.props.suggestionType === 'bank' && (<div className="react-dadata__suggestion__subtext"><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.bic}/> <Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.address.value}/></div>)}</div>
           })}
         </div>}
       </div>
