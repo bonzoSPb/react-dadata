@@ -117,6 +117,7 @@ export declare namespace ReactDadata {
         disabled: boolean;
         required: boolean;
         className: string;
+        id: string;
         suggestionType: string;
     }
     interface State {

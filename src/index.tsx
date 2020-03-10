@@ -115,6 +115,7 @@ export namespace ReactDadata {
     disabled: boolean
     required: boolean
     className: string
+    id: string
     suggestionType: string
   }
 
@@ -316,6 +317,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
           <input className={`react-dadata__input ${this.props.className}`}
                  placeholder={this.props.placeholder ? this.props.placeholder : ''}
                  value={this.state.query}
+                 id={this.props.id}
                  ref={ (input) => { this.textInput = input as HTMLInputElement; } }
                  onChange={this.onInputChange}
                  onKeyPress={this.onKeyPress}
