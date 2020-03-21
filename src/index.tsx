@@ -170,9 +170,11 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   }
 
   onInputFocus = () => {
-    this.setState({inputFocused: true});
-    if (this.state.suggestions.length == 0) {
-      this.fetchSuggestions();
+    if (!this.props.readOnly) {
+      this.setState({inputFocused: true});
+      if (this.state.suggestions.length == 0) {
+        this.fetchSuggestions();
+      }
     }
   };
 

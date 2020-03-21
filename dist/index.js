@@ -18,9 +18,11 @@ var ReactDadata = (function (_super) {
     function ReactDadata(props) {
         var _this = _super.call(this, props) || this;
         _this.onInputFocus = function () {
-            _this.setState({ inputFocused: true });
-            if (_this.state.suggestions.length == 0) {
-                _this.fetchSuggestions();
+            if (!_this.props.readOnly) {
+                _this.setState({ inputFocused: true });
+                if (_this.state.suggestions.length == 0) {
+                    _this.fetchSuggestions();
+                }
             }
         };
         _this.onInputBlur = function () {
