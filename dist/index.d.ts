@@ -145,7 +145,7 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     componentDidMount(): void;
     componentDidUpdate(prevProps: any): void;
     onInputFocus: () => void;
-    onInputBlur: () => void;
+    onInputBlur: (e: any) => void;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     fetchSuggestions: () => void;
