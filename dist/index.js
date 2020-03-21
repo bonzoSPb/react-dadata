@@ -208,7 +208,7 @@ var ReactDadata = (function (_super) {
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address.value })));
                     }
                     else if (_this.props.suggestionType === 'fms') {
-                        return React.createElement("div", { key: suggestion.data.code, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: "" + suggestion.value + suggestion.data.code, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else {
