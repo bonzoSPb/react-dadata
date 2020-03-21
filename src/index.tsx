@@ -113,6 +113,7 @@ export namespace ReactDadata {
     bounds: string
     name: string
     disabled: boolean
+    readOnly: boolean
     required: boolean
     className: string
     id: string
@@ -329,6 +330,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
                  name={this.props.name}
                  disabled={this.props.disabled}
                  required={this.props.required}
+                 readOnly={this.props.readOnly}
           />
         </div>
         {this.state.inputFocused && this.state.suggestionsVisible && this.state.suggestions && this.state.suggestions.length > 0 && <div className="react-dadata__suggestions">

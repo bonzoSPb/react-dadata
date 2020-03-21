@@ -115,6 +115,7 @@ export declare namespace ReactDadata {
         bounds: string;
         name: string;
         disabled: boolean;
+        readOnly: boolean;
         required: boolean;
         className: string;
         id: string;
