@@ -110,6 +110,7 @@ export declare namespace ReactDadata {
         query?: string;
         autoload?: boolean;
         onChange?: (suggestion: DadataSuggestion) => void;
+        onBlur?: (suggestion: DadataSuggestion) => void;
         autocomplete?: string;
         validate?: (value: string) => void;
         bounds: string;
