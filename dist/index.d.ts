@@ -118,6 +118,7 @@ export declare namespace ReactDadata {
         name: string;
         disabled: boolean;
         readOnly: boolean;
+        autoFocus: boolean;
         required: boolean;
         className: string;
         id: string;

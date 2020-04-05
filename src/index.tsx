@@ -116,6 +116,7 @@ export namespace ReactDadata {
     name: string
     disabled: boolean
     readOnly: boolean
+    autoFocus: boolean
     required: boolean
     className: string
     id: string
@@ -333,6 +334,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
                  onKeyDown={this.onKeyPress}
                  onFocus={this.onInputFocus}
                  onBlur={this.onInputBlur}
+                 autoFocus={this.props.autoFocus}
                  validate={this.props.validate}
                  autoComplete={this.props.autocomplete ? this.props.autocomplete : 'off'}
                  name={this.props.name}
