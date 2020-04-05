@@ -285,6 +285,14 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
 
   onSuggestionClick = (index: number, event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
+
+    alert('click ' + index);
+    this.selectSuggestion(index);
+  };
+
+  onSuggestionClickTest = (index: number, event: React.TouchEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    alert('touch ' + index);
     this.selectSuggestion(index);
   };
 
@@ -357,7 +365,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
             } else if (this.props.suggestionType === 'fms') {
               return <div key={`${suggestion.value}${suggestion.data.code}`} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             } else {
-              return <div key={suggestion.value} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
+              return <div key={suggestion.value} onTouchStart={this.onSuggestionClickTest.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             }
           })}
         </div>}

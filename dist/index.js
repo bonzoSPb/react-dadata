@@ -129,6 +129,12 @@ var ReactDadata = (function (_super) {
         };
         _this.onSuggestionClick = function (index, event) {
             event.stopPropagation();
+            alert('click ' + index);
+            _this.selectSuggestion(index);
+        };
+        _this.onSuggestionClickTest = function (index, event) {
+            event.stopPropagation();
+            alert('touch ' + index);
             _this.selectSuggestion(index);
         };
         _this.selectSuggestion = function (index) {
@@ -214,7 +220,7 @@ var ReactDadata = (function (_super) {
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else {
-                        return React.createElement("div", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: suggestion.value, onTouchStart: _this.onSuggestionClickTest.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                 }))));
