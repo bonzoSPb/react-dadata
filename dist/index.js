@@ -17,13 +17,15 @@ var ReactDadata = (function (_super) {
     __extends(ReactDadata, _super);
     function ReactDadata(props) {
         var _this = _super.call(this, props) || this;
-        _this.onInputFocus = function () {
+        _this.onInputFocus = function (e) {
             if (!_this.props.readOnly) {
                 _this.setState({ inputFocused: true });
                 if (_this.state.suggestions.length == 0) {
                     _this.fetchSuggestions();
                 }
             }
+            var _a = _this.props.onFocus, onFocus = _a === void 0 ? function () { } : _a;
+            onFocus(e);
         };
         _this.onInputBlur = function (e) {
             _this.setState({ inputFocused: false });

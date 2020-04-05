@@ -108,7 +108,8 @@ export namespace ReactDadata {
     query?: string
     autoload?: boolean
     onChange?: (suggestion: DadataSuggestion) => void
-    onBlur? : (suggestion: DadataSuggestion) => void
+    onFocus?: (suggestion: DadataSuggestion) => void
+    onBlur?: (suggestion: DadataSuggestion) => void
     autocomplete?: string
     validate?: (value: string) => void
     bounds: string
@@ -170,13 +171,15 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
   }
 
-  onInputFocus = () => {
+  onInputFocus = (e) => {
     if (!this.props.readOnly) {
       this.setState({inputFocused: true});
       if (this.state.suggestions.length == 0) {
         this.fetchSuggestions();
       }
     }
+    const { onFocus = () => {} } = this.props;
+    onFocus(e);
   };
 
   onInputBlur = (e) => {

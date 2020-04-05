@@ -110,6 +110,7 @@ export declare namespace ReactDadata {
         query?: string;
         autoload?: boolean;
         onChange?: (suggestion: DadataSuggestion) => void;
+        onFocus?: (suggestion: DadataSuggestion) => void;
         onBlur?: (suggestion: DadataSuggestion) => void;
         autocomplete?: string;
         validate?: (value: string) => void;
@@ -144,7 +145,7 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     constructor(props: ReactDadata.Props);
     componentDidMount(): void;
     componentDidUpdate(prevProps: any): void;
-    onInputFocus: () => void;
+    onInputFocus: (e: any) => void;
     onInputBlur: (e: any) => void;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
