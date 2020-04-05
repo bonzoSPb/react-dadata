@@ -152,7 +152,7 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     fetchSuggestions: () => void;
     onSuggestionClick: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
-    onSuggestionClickTest: (index: number, event: React.TouchEvent<HTMLDivElement>) => void;
+    onSuggestionTouch: (index: number, event: React.TouchEvent<HTMLDivElement>) => void;
     selectSuggestion: (index: number) => void;
     setCursorToEnd: (element: any) => void;
     getHighlightWords: () => string[];
