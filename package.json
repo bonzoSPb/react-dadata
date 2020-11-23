@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/bonzoSPb/react-dadata#readme",
   "dependencies": {
-    "react-highlight-words": "^0.8.1"
+    "react-highlight-words": "^0.8.1",
+    "react-textarea-autosize": "^8.3.0"
   },
   "devDependencies": {
     "@types/react": "^16.0.2",

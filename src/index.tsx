@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as Highlighter from 'react-highlight-words';
+import TextareaAutosize from 'react-textarea-autosize';
 import './react-dadata.css';
 declare module 'react' {
      interface InputHTMLAttributes<T> {
@@ -336,23 +337,24 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     return (
       <div className="react-dadata react-dadata__container">
         <div>
-          <input className={`react-dadata__input ${this.props.className}`}
-                 placeholder={this.props.placeholder ? this.props.placeholder : ''}
-                 value={this.state.query}
-                 id={this.props.id}
-                 ref={ (input) => { this.textInput = input as HTMLInputElement; } }
-                 onChange={this.onInputChange}
-                 onKeyPress={this.onKeyPress}
-                 onKeyDown={this.onKeyPress}
-                 onFocus={this.onInputFocus}
-                 onBlur={this.onInputBlur}
-                 autoFocus={this.props.autoFocus}
-                 validate={this.props.validate}
-                 autoComplete={this.props.autocomplete ? this.props.autocomplete : 'off'}
-                 name={this.props.name}
-                 disabled={this.props.disabled}
-                 required={this.props.required}
-                 readOnly={this.props.readOnly}
+          <TextareaAutosize
+              className={`react-dadata__input ${this.props.className}`}
+              placeholder={this.props.placeholder ? this.props.placeholder : ''}
+              value={this.state.query}
+              id={this.props.id}
+              ref={ (input) => { this.textInput = input as HTMLInputElement; } }
+              onChange={this.onInputChange}
+              onKeyPress={this.onKeyPress}
+              onKeyDown={this.onKeyPress}
+              onFocus={this.onInputFocus}
+              onBlur={this.onInputBlur}
+              autoFocus={this.props.autoFocus}
+              validate={this.props.validate}
+              autoComplete={this.props.autocomplete ? this.props.autocomplete : 'off'}
+              name={this.props.name}
+              disabled={this.props.disabled}
+              required={this.props.required}
+              readOnly={this.props.readOnly}
           />
         </div>
         {this.state.inputFocused && this.state.suggestionsVisible && this.state.suggestions && this.state.suggestions.length > 0 && <div className="react-dadata__suggestions">

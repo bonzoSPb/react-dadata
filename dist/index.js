@@ -12,6 +12,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var Highlighter = require("react-highlight-words");
+var react_textarea_autosize_1 = require("react-textarea-autosize");
 require("./react-dadata.css");
 var ReactDadata = (function (_super) {
     __extends(ReactDadata, _super);
@@ -196,7 +197,7 @@ var ReactDadata = (function (_super) {
         var _this = this;
         return (React.createElement("div", { className: "react-dadata react-dadata__container" },
             React.createElement("div", null,
-                React.createElement("input", { className: "react-dadata__input " + this.props.className, placeholder: this.props.placeholder ? this.props.placeholder : '', value: this.state.query, id: this.props.id, ref: function (input) { _this.textInput = input; }, onChange: this.onInputChange, onKeyPress: this.onKeyPress, onKeyDown: this.onKeyPress, onFocus: this.onInputFocus, onBlur: this.onInputBlur, autoFocus: this.props.autoFocus, validate: this.props.validate, autoComplete: this.props.autocomplete ? this.props.autocomplete : 'off', name: this.props.name, disabled: this.props.disabled, required: this.props.required, readOnly: this.props.readOnly })),
+                React.createElement(react_textarea_autosize_1.default, { className: "react-dadata__input " + this.props.className, placeholder: this.props.placeholder ? this.props.placeholder : '', value: this.state.query, id: this.props.id, ref: function (input) { _this.textInput = input; }, onChange: this.onInputChange, onKeyPress: this.onKeyPress, onKeyDown: this.onKeyPress, onFocus: this.onInputFocus, onBlur: this.onInputBlur, autoFocus: this.props.autoFocus, validate: this.props.validate, autoComplete: this.props.autocomplete ? this.props.autocomplete : 'off', name: this.props.name, disabled: this.props.disabled, required: this.props.required, readOnly: this.props.readOnly })),
             this.state.inputFocused && this.state.suggestionsVisible && this.state.suggestions && this.state.suggestions.length > 0 && React.createElement("div", { className: "react-dadata__suggestions" },
                 React.createElement("div", { className: "react-dadata__suggestion-note" }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0430\u0440\u0438\u0430\u043D\u0442 \u0438\u043B\u0438 \u043F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u0435 \u0432\u0432\u043E\u0434"),
                 this.state.suggestions.map(function (suggestion, index) {
