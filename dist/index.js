@@ -44,7 +44,7 @@ var ReactDadata = (function (_super) {
                 ;
                 if (_this.props.onChange) {
                     _this.props.onChange({
-                        value: '',
+                        value: value,
                         unrestricted_value: '',
                         data: {},
                     });

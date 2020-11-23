@@ -200,7 +200,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       };
       if (this.props.onChange) {
         this.props.onChange({
-          value: '',
+          value: value,
           unrestricted_value: '',
           data: {},
         } as ReactDadata.DadataSuggestion);
