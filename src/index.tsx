@@ -198,6 +198,13 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       if (this.props.validate){
         this.props.validate(value);
       };
+      if (this.props.onChange) {
+        this.props.onChange({
+          value: '',
+          unrestricted_value: '',
+          data: {},
+        } as ReactDadata.DadataSuggestion);
+      }
       this.fetchSuggestions();
     });
   };

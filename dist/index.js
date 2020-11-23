@@ -42,6 +42,13 @@ var ReactDadata = (function (_super) {
                     _this.props.validate(value);
                 }
                 ;
+                if (_this.props.onChange) {
+                    _this.props.onChange({
+                        value: '',
+                        unrestricted_value: '',
+                        data: {},
+                    });
+                }
                 _this.fetchSuggestions();
             });
         };
