@@ -5,12 +5,12 @@
 .react-dadata__input {
   display: block;
   box-sizing: border-box;
-  height: 38px;
+  min-height: 38px;
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
   font-size: 16px;
-  padding: 0 10px;
+  resize: none;
 }
 
 .react-dadata__input:focus {
@@ -55,6 +55,7 @@
 .react-dadata--highlighted {
   color: #E5841C;
 }
+
 .react-dadata__suggestion__subtext {
   color: #828282;
 }
