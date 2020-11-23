@@ -116,7 +116,9 @@ var ReactDadata = (function (_super) {
                     from_bound: {
                         value: _this.props.bounds,
                     },
-                    country: _this.props.country,
+                    locations: [{
+                            country: _this.props.country,
+                        }],
                 };
             }
             _this.xhr.open("POST", url);

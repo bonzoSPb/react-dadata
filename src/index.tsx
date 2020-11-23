@@ -270,7 +270,9 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
         from_bound: {
           value: this.props.bounds,
         },
-        country: this.props.country,
+        locations: [{
+          country: this.props.country,
+        }],
       };
     }
     this.xhr.open("POST", url);
