@@ -114,6 +114,7 @@ export namespace ReactDadata {
     autocomplete?: string
     validate?: (value: string) => void
     bounds: string
+    country: string
     name: string
     disabled: boolean
     readOnly: boolean
@@ -269,6 +270,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
         from_bound: {
           value: this.props.bounds,
         },
+        country: this.props.country,
       };
     }
     this.xhr.open("POST", url);
