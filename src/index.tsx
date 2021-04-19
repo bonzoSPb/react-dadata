@@ -254,6 +254,11 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       params = {
         query: this.state.query,
       };
+    } else if (this.props.suggestionType === 'fio') {
+      url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
+      params = {
+        query: this.state.query,
+      };
     } else if (this.props.suggestionType === 'party') {
       url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";
       params = {
@@ -374,6 +379,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
               return <div key={suggestion.data.inn} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/><div className="react-dadata__suggestion__subtext"><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.inn}/> <Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.address.value}/></div></div>
             } else if (this.props.suggestionType === 'fms') {
               return <div key={`${suggestion.value}${suggestion.data.code}`} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
+            } else if (this.props.suggestionType === 'fio') {
+              return <div key={`${suggestion.value}`} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             } else {
               return <div key={suggestion.value} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             }

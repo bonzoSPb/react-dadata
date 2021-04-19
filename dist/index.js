@@ -99,6 +99,12 @@ var ReactDadata = (function (_super) {
                     query: _this.state.query,
                 };
             }
+            else if (_this.props.suggestionType === 'fio') {
+                url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
+                params = {
+                    query: _this.state.query,
+                };
+            }
             else if (_this.props.suggestionType === 'party') {
                 url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";
                 params = {
@@ -226,6 +232,10 @@ var ReactDadata = (function (_super) {
                     }
                     else if (_this.props.suggestionType === 'fms') {
                         return React.createElement("div", { key: "" + suggestion.value + suggestion.data.code, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                            React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
+                    }
+                    else if (_this.props.suggestionType === 'fio') {
+                        return React.createElement("div", { key: "" + suggestion.value, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else {
