@@ -114,6 +114,7 @@ export namespace ReactDadata {
     autocomplete?: string
     validate?: (value: string) => void
     bounds: string
+    parts?: [string],
     country: string
     name: string
     disabled: boolean
@@ -258,6 +259,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
       params = {
         query: this.state.query,
+        parts: this.props.parts,
       };
     } else if (this.props.suggestionType === 'party') {
       url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";

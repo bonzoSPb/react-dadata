@@ -103,6 +103,7 @@ var ReactDadata = (function (_super) {
                 url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
                 params = {
                     query: _this.state.query,
+                    parts: _this.props.parts,
                 };
             }
             else if (_this.props.suggestionType === 'party') {
