@@ -36,8 +36,37 @@ var ReactDadata = (function (_super) {
             var _a = _this.props.onBlur, onBlur = _a === void 0 ? function () { } : _a;
             onBlur(e);
         };
+        _this.switchLanguage = function (string) {
+            var letters = {
+                q: 'й', w: 'ц', e: 'у', r: 'к', t: 'е', y: 'н', u: 'г', i: 'ш', o: 'щ', p: 'з', '[': 'х', ']': 'ъ', a: 'ф', s: 'ы', d: 'в', f: 'а', g: 'п', h: 'р', j: 'о', k: 'л', l: 'д', ';': 'ж', '\'': 'э', z: 'я', x: 'ч', c: 'с', v: 'м', b: 'и', n: 'т', m: 'ь', ',': 'б', '.': 'ю', Q: 'Й', W: 'Ц', E: 'У', R: 'К', T: 'Е', Y: 'Н', U: 'Г', I: 'Ш', O: 'Щ', P: 'З', '{': 'Х', '}': 'Ъ', A: 'Ф', S: 'Ы', D: 'В', F: 'А', G: 'П', H: 'Р', J: 'О', K: 'Л', L: 'Д', ':': 'Ж', '"': 'Э', Z: '?', X: 'ч', C: 'С', V: 'М', B: 'И', N: 'Т', M: 'Ь', '<': 'Б', '>': 'Ю', '`': 'ё', '~': 'Ё',
+            };
+            var value = string.split('');
+            var removeSpace = false;
+            if (value.slice(-1)[0] === ' ') {
+                value.pop();
+                removeSpace = true;
+            }
+            var lastChar = value.slice(-1)[0];
+            Object.keys(letters).forEach(function (letter) {
+                if (letter === lastChar) {
+                    value.pop();
+                    value.push(letters[letter]);
+                }
+            });
+            if (removeSpace) {
+                value.push(' ');
+            }
+            return value.join('');
+        };
         _this.onInputChange = function (event) {
             var value = event.target.value;
+            if (_this.props.firstCapital) {
+                value = _this.switchLanguage(value);
+            }
+            if (_this.props.firstCapital) {
+                value = value.toLowerCase();
+                value = value.charAt(0).toUpperCase() + value.slice(1);
+            }
             _this.setState({ query: value, inputQuery: value, suggestionsVisible: true }, function () {
                 if (_this.props.validate) {
                     _this.props.validate(value);

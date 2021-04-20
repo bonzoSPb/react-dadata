@@ -116,6 +116,8 @@ export namespace ReactDadata {
     bounds: string
     parts?: [string],
     country: string
+    translate?: boolean,
+    firstCapital?: boolean,
     name: string
     disabled: boolean
     readOnly: boolean
@@ -193,10 +195,40 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
     const { onBlur = () => {} } = this.props;
     onBlur(e);
-  };
+  }; 
+  
+  switchLanguage = (string) => {
+    const letters = {
+      q: 'й', w: 'ц', e: 'у', r: 'к', t: 'е', y: 'н', u: 'г', i: 'ш', o: 'щ', p: 'з', '[': 'х', ']': 'ъ', a: 'ф', s: 'ы', d: 'в', f: 'а', g: 'п', h: 'р', j: 'о', k: 'л', l: 'д', ';': 'ж', '\'': 'э', z: 'я', x: 'ч', c: 'с', v: 'м', b: 'и', n: 'т', m: 'ь', ',': 'б', '.': 'ю', Q: 'Й', W: 'Ц', E: 'У', R: 'К', T: 'Е', Y: 'Н', U: 'Г', I: 'Ш', O: 'Щ', P: 'З', '{': 'Х', '}': 'Ъ', A: 'Ф', S: 'Ы', D: 'В', F: 'А', G: 'П', H: 'Р', J: 'О', K: 'Л', L: 'Д', ':': 'Ж', '"': 'Э', Z: '?', X: 'ч', C: 'С', V: 'М', B: 'И', N: 'Т', M: 'Ь', '<': 'Б', '>': 'Ю', '`': 'ё', '~': 'Ё',
+    };
+    const value = string.split('');
+    let removeSpace = false;
+    if (value.slice(-1)[0] === ' ') {
+      value.pop();
+      removeSpace = true;
+    }
+    const lastChar = value.slice(-1)[0];
+    Object.keys(letters).forEach((letter) => {
+      if (letter === lastChar) {
+        value.pop();
+        value.push(letters[letter]);
+      }
+    });
+    if (removeSpace) {
+      value.push(' ');
+    }
+    return value.join('');
+  }
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    let value = event.target.value;
+    if (this.props.firstCapital) {
+      value = this.switchLanguage(value);
+    }
+    if (this.props.firstCapital) {
+      value = value.toLowerCase();
+      value = value.charAt(0).toUpperCase() + value.slice(1);
+    }
     this.setState({query: value, inputQuery: value, suggestionsVisible: true}, () => {
       if (this.props.validate){
         this.props.validate(value);

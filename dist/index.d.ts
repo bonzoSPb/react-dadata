@@ -117,6 +117,8 @@ export declare namespace ReactDadata {
         bounds: string;
         parts?: [string];
         country: string;
+        translate?: boolean;
+        firstCapital?: boolean;
         name: string;
         disabled: boolean;
         readOnly: boolean;
@@ -150,6 +152,7 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     componentDidUpdate(prevProps: any): void;
     onInputFocus: (e: any) => void;
     onInputBlur: (e: any) => void;
+    switchLanguage: (string: any) => any;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     fetchSuggestions: () => void;
