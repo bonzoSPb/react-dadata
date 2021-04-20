@@ -222,7 +222,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value;
-    if (this.props.firstCapital) {
+    if (this.props.translate) {
       value = this.switchLanguage(value);
     }
     if (this.props.firstCapital) {
