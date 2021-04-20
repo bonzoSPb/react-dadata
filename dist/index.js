@@ -60,7 +60,7 @@ var ReactDadata = (function (_super) {
         };
         _this.onInputChange = function (event) {
             var value = event.target.value;
-            if (_this.props.firstCapital) {
+            if (_this.props.translate) {
                 value = _this.switchLanguage(value);
             }
             if (_this.props.firstCapital) {
