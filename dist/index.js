@@ -103,7 +103,9 @@ var ReactDadata = (function (_super) {
             }
             else if (event.key === 'Enter' || event.key === 'Tab') {
                 // Enter || Tab
-                event.preventDefault();
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                }
                 if (_this.state.suggestionIndex >= 0) {
                     _this.selectSuggestion(_this.state.suggestionIndex);
                 }
@@ -265,7 +267,7 @@ var ReactDadata = (function (_super) {
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else if (_this.props.suggestionType === 'fio') {
-                        return React.createElement("div", { key: "" + suggestion.value, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: suggestion.value, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else {

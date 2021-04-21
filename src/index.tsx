@@ -263,7 +263,9 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       }
     } else if (event.key === 'Enter' || event.key === 'Tab') {
       // Enter || Tab
-      event.preventDefault();
+      if (event.key === 'Enter') {
+        event.preventDefault();
+      }
       if (this.state.suggestionIndex >= 0) {
         this.selectSuggestion(this.state.suggestionIndex);
       }
@@ -414,7 +416,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
             } else if (this.props.suggestionType === 'fms') {
               return <div key={`${suggestion.value}${suggestion.data.code}`} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             } else if (this.props.suggestionType === 'fio') {
-              return <div key={`${suggestion.value}`} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
+              return <div key={suggestion.value} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             } else {
               return <div key={suggestion.value} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             }
