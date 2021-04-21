@@ -204,12 +204,13 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       this.fetchSuggestions();
     }
     if (this.props.setCursorOnBlur && !this.state.inputBlur) {
-      this.setState({inputBlur: true});
-      const valueLength = this.textInput.value.length;
-      this.textInput.selectionStart = valueLength;
-      this.textInput.selectionEnd = valueLength;
-      this.textInput.focus();
-      this.textInput.blur();
+      this.setState({inputBlur: true}, () => {
+        const valueLength = this.textInput.value.length;
+        this.textInput.selectionStart = valueLength;
+        this.textInput.selectionEnd = valueLength;
+        this.textInput.focus();
+        this.textInput.blur();
+      });
     }
     const { onBlur = () => {} } = this.props;
     onBlur(e);
