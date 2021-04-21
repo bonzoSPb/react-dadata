@@ -36,6 +36,13 @@ var ReactDadata = (function (_super) {
             if (_this.state.suggestions.length == 0) {
                 _this.fetchSuggestions();
             }
+            if (_this.props.setCursorOnBlur) {
+                var valueLength = _this.textInput.value.length;
+                _this.textInput.selectionStart = valueLength;
+                _this.textInput.selectionEnd = valueLength;
+                _this.textInput.focus();
+                _this.textInput.blur();
+            }
             var _a = _this.props.onBlur, onBlur = _a === void 0 ? function () { } : _a;
             onBlur(e);
         };

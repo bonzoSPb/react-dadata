@@ -120,6 +120,7 @@ export declare namespace ReactDadata {
         translate?: boolean;
         firstCapital?: boolean;
         setCursorToEnd?: boolean;
+        setCursorOnBlur: boolean;
         name: string;
         disabled: boolean;
         readOnly: boolean;
