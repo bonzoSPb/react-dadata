@@ -245,7 +245,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   };
 
   onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.which == 40) {
+    if (event.key === 'ArrowDown') {
       // Arrow down
       event.preventDefault();
       if (this.state.suggestionIndex < this.state.suggestions.length) {
@@ -253,7 +253,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
         const newInputQuery = this.state.suggestions[newSuggestionIndex].value;
         this.setState({suggestionIndex: newSuggestionIndex, query: newInputQuery})
       }
-    } else if (event.which == 38) {
+    } else if (event.key === 'ArrowUp') {
       // Arrow up
       event.preventDefault();
       if (this.state.suggestionIndex >= 0) {
@@ -261,8 +261,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
         const newInputQuery = newSuggestionIndex == -1 ? this.state.inputQuery : this.state.suggestions[newSuggestionIndex].value;
         this.setState({suggestionIndex: newSuggestionIndex, query: newInputQuery})
       }
-    } else if (event.which == 13) {
-      // Enter
+    } else if (event.key === 'Enter' || event.key === 'Tab') {
+      // Enter || Tab
       event.preventDefault();
       if (this.state.suggestionIndex >= 0) {
         this.selectSuggestion(this.state.suggestionIndex);

@@ -83,7 +83,7 @@ var ReactDadata = (function (_super) {
             });
         };
         _this.onKeyPress = function (event) {
-            if (event.which == 40) {
+            if (event.key === 'ArrowDown') {
                 // Arrow down
                 event.preventDefault();
                 if (_this.state.suggestionIndex < _this.state.suggestions.length) {
@@ -92,7 +92,7 @@ var ReactDadata = (function (_super) {
                     _this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
                 }
             }
-            else if (event.which == 38) {
+            else if (event.key === 'ArrowUp') {
                 // Arrow up
                 event.preventDefault();
                 if (_this.state.suggestionIndex >= 0) {
@@ -101,8 +101,8 @@ var ReactDadata = (function (_super) {
                     _this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
                 }
             }
-            else if (event.which == 13) {
-                // Enter
+            else if (event.key === 'Enter' || event.key === 'Tab') {
+                // Enter || Tab
                 event.preventDefault();
                 if (_this.state.suggestionIndex >= 0) {
                     _this.selectSuggestion(_this.state.suggestionIndex);
