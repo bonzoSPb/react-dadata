@@ -101,13 +101,17 @@ var ReactDadata = (function (_super) {
                     _this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
                 }
             }
-            else if (event.key === 'Enter' || event.key === 'Tab') {
-                // Enter || Tab
-                if (event.key === 'Enter') {
-                    event.preventDefault();
-                }
+            else if (event.key === 'Enter') {
+                // Enter
+                event.preventDefault();
                 if (_this.state.suggestionIndex >= 0) {
                     _this.selectSuggestion(_this.state.suggestionIndex);
+                }
+            }
+            else if (event.key === 'Tab') {
+                // Tab
+                if (_this.state.suggestionIndex >= 0) {
+                    _this.selectSuggestion(_this.state.suggestionIndex, true);
                 }
             }
         };
@@ -184,11 +188,13 @@ var ReactDadata = (function (_super) {
             event.stopPropagation();
             _this.selectSuggestion(index);
         };
-        _this.selectSuggestion = function (index) {
+        _this.selectSuggestion = function (index, skipSetCursorFlag) {
             if (_this.state.suggestions.length >= index - 1) {
                 _this.setState({ query: _this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: _this.state.suggestions[index].value }, function () {
                     _this.fetchSuggestions();
-                    setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
+                    if (typeof skipSetCursorFlag === 'undefined') {
+                        setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
+                    }
                 });
                 if (_this.props.onChange) {
                     _this.props.onChange(_this.state.suggestions[index]);
@@ -267,7 +273,7 @@ var ReactDadata = (function (_super) {
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else if (_this.props.suggestionType === 'fio') {
-                        return React.createElement("div", { key: suggestion.value, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: "" + suggestion.value, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else {

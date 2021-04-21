@@ -261,13 +261,16 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
         const newInputQuery = newSuggestionIndex == -1 ? this.state.inputQuery : this.state.suggestions[newSuggestionIndex].value;
         this.setState({suggestionIndex: newSuggestionIndex, query: newInputQuery})
       }
-    } else if (event.key === 'Enter' || event.key === 'Tab') {
-      // Enter || Tab
-      if (event.key === 'Enter') {
-        event.preventDefault();
-      }
+    } else if (event.key === 'Enter') {
+      // Enter
+      event.preventDefault();
       if (this.state.suggestionIndex >= 0) {
         this.selectSuggestion(this.state.suggestionIndex);
+      }
+    } else if (event.key === 'Tab') {
+      // Tab
+      if (this.state.suggestionIndex >= 0) {
+        this.selectSuggestion(this.state.suggestionIndex, true);
       }
     }
   };
@@ -346,11 +349,13 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     this.selectSuggestion(index);
   };
 
-  selectSuggestion = (index: number) => {
+  selectSuggestion = (index: number, skipSetCursorFlag?: boolean) => {
     if (this.state.suggestions.length >= index - 1) {
       this.setState({query: this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: this.state.suggestions[index].value}, () => {
         this.fetchSuggestions();
-        setTimeout(() => this.setCursorToEnd(this.textInput), 100);
+        if (typeof skipSetCursorFlag === 'undefined') {
+          setTimeout(() => this.setCursorToEnd(this.textInput), 100);
+        }
       });
 
       if (this.props.onChange) {
@@ -416,7 +421,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
             } else if (this.props.suggestionType === 'fms') {
               return <div key={`${suggestion.value}${suggestion.data.code}`} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             } else if (this.props.suggestionType === 'fio') {
-              return <div key={suggestion.value} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
+              return <div key={`${suggestion.value}`} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             } else {
               return <div key={suggestion.value} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             }
