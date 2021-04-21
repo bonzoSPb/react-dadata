@@ -134,6 +134,7 @@ export declare namespace ReactDadata {
         query: string;
         inputQuery: string;
         inputFocused: boolean;
+        inputBlur: boolean;
         suggestions: Array<DadataSuggestion>;
         suggestionIndex: number;
         suggestionsVisible: boolean;

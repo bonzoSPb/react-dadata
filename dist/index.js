@@ -24,6 +24,9 @@ var ReactDadata = (function (_super) {
                 if (_this.state.suggestions.length == 0) {
                     _this.fetchSuggestions();
                 }
+                if (_this.props.setCursorOnBlur && _this.state.inputBlur) {
+                    _this.setState({ inputBlur: false });
+                }
                 if (_this.props.setCursorToEnd) {
                     setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
                 }
@@ -36,7 +39,8 @@ var ReactDadata = (function (_super) {
             if (_this.state.suggestions.length == 0) {
                 _this.fetchSuggestions();
             }
-            if (_this.props.setCursorOnBlur) {
+            if (_this.props.setCursorOnBlur && !_this.state.inputBlur) {
+                _this.setState({ inputBlur: true });
                 var valueLength = _this.textInput.value.length;
                 _this.textInput.selectionStart = valueLength;
                 _this.textInput.selectionEnd = valueLength;
@@ -232,6 +236,7 @@ var ReactDadata = (function (_super) {
             query: _this.props.query ? _this.props.query : '',
             inputQuery: _this.props.query ? _this.props.query : '',
             inputFocused: false,
+            inputBlur: false,
             suggestions: [],
             suggestionIndex: -1,
             suggestionsVisible: true,

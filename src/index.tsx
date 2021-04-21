@@ -134,6 +134,7 @@ export namespace ReactDadata {
     query: string
     inputQuery: string
     inputFocused: boolean
+    inputBlur: boolean,
     suggestions: Array<DadataSuggestion>
     suggestionIndex: number
     suggestionsVisible: boolean
@@ -160,6 +161,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       query: this.props.query ? this.props.query : '',
       inputQuery: this.props.query ? this.props.query : '',
       inputFocused: false,
+      inputBlur: false,
       suggestions: [],
       suggestionIndex: -1,
       suggestionsVisible: true,
@@ -185,6 +187,9 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       if (this.state.suggestions.length == 0) {
         this.fetchSuggestions();
       }
+      if (this.props.setCursorOnBlur && this.state.inputBlur) {
+        this.setState({inputBlur: false});
+      }
       if (this.props.setCursorToEnd) {
         setTimeout(() => this.setCursorToEnd(this.textInput), 100);
       }
@@ -198,7 +203,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     if (this.state.suggestions.length == 0) {
       this.fetchSuggestions();
     }
-    if (this.props.setCursorOnBlur) {
+    if (this.props.setCursorOnBlur && !this.state.inputBlur) {
+      this.setState({inputBlur: true});
       const valueLength = this.textInput.value.length;
       this.textInput.selectionStart = valueLength;
       this.textInput.selectionEnd = valueLength;
