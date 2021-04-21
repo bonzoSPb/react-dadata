@@ -25,7 +25,7 @@ var ReactDadata = (function (_super) {
                     _this.fetchSuggestions();
                 }
                 if (_this.props.setCursorToEnd) {
-                    _this.setCursorToEnd(_this.textInput);
+                    setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
                 }
             }
             var _a = _this.props.onFocus, onFocus = _a === void 0 ? function () { } : _a;

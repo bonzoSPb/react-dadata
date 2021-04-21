@@ -185,7 +185,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
         this.fetchSuggestions();
       }
       if (this.props.setCursorToEnd) {
-        this.setCursorToEnd(this.textInput);
+        setTimeout(() => this.setCursorToEnd(this.textInput), 100);
       }
     }
     const { onFocus = () => {} } = this.props;
