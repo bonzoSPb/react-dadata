@@ -118,6 +118,7 @@ export namespace ReactDadata {
     country: string
     translate?: boolean,
     firstCapital?: boolean,
+    setCursorToEnd?: boolean,
     name: string
     disabled: boolean
     readOnly: boolean
@@ -182,6 +183,9 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       this.setState({inputFocused: true});
       if (this.state.suggestions.length == 0) {
         this.fetchSuggestions();
+      }
+      if (this.props.setCursorToEnd) {
+        this.setCursorToEnd(this.textInput);
       }
     }
     const { onFocus = () => {} } = this.props;

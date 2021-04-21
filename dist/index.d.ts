@@ -119,6 +119,7 @@ export declare namespace ReactDadata {
         country: string;
         translate?: boolean;
         firstCapital?: boolean;
+        setCursorToEnd?: boolean;
         name: string;
         disabled: boolean;
         readOnly: boolean;

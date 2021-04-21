@@ -24,6 +24,9 @@ var ReactDadata = (function (_super) {
                 if (_this.state.suggestions.length == 0) {
                     _this.fetchSuggestions();
                 }
+                if (_this.props.setCursorToEnd) {
+                    _this.setCursorToEnd(_this.textInput);
+                }
             }
             var _a = _this.props.onFocus, onFocus = _a === void 0 ? function () { } : _a;
             onFocus(e);
