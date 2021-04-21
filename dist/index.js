@@ -24,12 +24,6 @@ var ReactDadata = (function (_super) {
                 if (_this.state.suggestions.length == 0) {
                     _this.fetchSuggestions();
                 }
-                if (_this.props.setCursorOnBlur && _this.state.inputBlur) {
-                    _this.setState({ inputBlur: false });
-                }
-                if (_this.props.setCursorToEnd) {
-                    setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
-                }
             }
             var _a = _this.props.onFocus, onFocus = _a === void 0 ? function () { } : _a;
             onFocus(e);
@@ -38,15 +32,6 @@ var ReactDadata = (function (_super) {
             _this.setState({ inputFocused: false });
             if (_this.state.suggestions.length == 0) {
                 _this.fetchSuggestions();
-            }
-            if (_this.props.setCursorOnBlur && !_this.state.inputBlur) {
-                _this.setState({ inputBlur: true }, function () {
-                    var valueLength = _this.textInput.value.length;
-                    _this.textInput.selectionStart = valueLength;
-                    _this.textInput.selectionEnd = valueLength;
-                    _this.textInput.focus();
-                    _this.textInput.blur();
-                });
             }
             var _a = _this.props.onBlur, onBlur = _a === void 0 ? function () { } : _a;
             onBlur(e);

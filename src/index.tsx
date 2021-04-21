@@ -118,8 +118,6 @@ export namespace ReactDadata {
     country: string
     translate?: boolean,
     firstCapital?: boolean,
-    setCursorToEnd?: boolean,
-    setCursorOnBlur: boolean,
     name: string
     disabled: boolean
     readOnly: boolean
@@ -187,12 +185,6 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       if (this.state.suggestions.length == 0) {
         this.fetchSuggestions();
       }
-      if (this.props.setCursorOnBlur && this.state.inputBlur) {
-        this.setState({inputBlur: false});
-      }
-      if (this.props.setCursorToEnd) {
-        setTimeout(() => this.setCursorToEnd(this.textInput), 100);
-      }
     }
     const { onFocus = () => {} } = this.props;
     onFocus(e);
@@ -202,15 +194,6 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     this.setState({inputFocused: false});
     if (this.state.suggestions.length == 0) {
       this.fetchSuggestions();
-    }
-    if (this.props.setCursorOnBlur && !this.state.inputBlur) {
-      this.setState({inputBlur: true}, () => {
-        const valueLength = this.textInput.value.length;
-        this.textInput.selectionStart = valueLength;
-        this.textInput.selectionEnd = valueLength;
-        this.textInput.focus();
-        this.textInput.blur();
-      });
     }
     const { onBlur = () => {} } = this.props;
     onBlur(e);
