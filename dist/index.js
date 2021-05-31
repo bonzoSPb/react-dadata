@@ -228,8 +228,6 @@ var ReactDadata = (function (_super) {
             suggestionsVisible: true,
             isValid: false
         };
-        _this.textInput = new HTMLInputElement();
-        _this.xhr = new XMLHttpRequest();
         return _this;
     }
     ReactDadata.prototype.componentDidMount = function () {
