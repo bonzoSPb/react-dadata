@@ -165,6 +165,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       suggestionsVisible: true,
       isValid: false
     }
+    this.textInput = new HTMLInputElement();
+    this.xhr = new XMLHttpRequest();
   }
 
   componentDidMount() {
