@@ -114,7 +114,10 @@ export namespace ReactDadata {
     autocomplete?: string
     validate?: (value: string) => void
     bounds: string
+    parts?: [string],
     country: string
+    translate?: boolean,
+    firstCapital?: boolean,
     name: string
     disabled: boolean
     readOnly: boolean
@@ -129,6 +132,7 @@ export namespace ReactDadata {
     query: string
     inputQuery: string
     inputFocused: boolean
+    inputBlur: boolean,
     suggestions: Array<DadataSuggestion>
     suggestionIndex: number
     suggestionsVisible: boolean
@@ -155,6 +159,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       query: this.props.query ? this.props.query : '',
       inputQuery: this.props.query ? this.props.query : '',
       inputFocused: false,
+      inputBlur: false,
       suggestions: [],
       suggestionIndex: -1,
       suggestionsVisible: true,
@@ -192,10 +197,40 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
     const { onBlur = () => {} } = this.props;
     onBlur(e);
-  };
+  }; 
+  
+  switchLanguage = (string) => {
+    const letters = {
+      q: 'й', w: 'ц', e: 'у', r: 'к', t: 'е', y: 'н', u: 'г', i: 'ш', o: 'щ', p: 'з', '[': 'х', ']': 'ъ', a: 'ф', s: 'ы', d: 'в', f: 'а', g: 'п', h: 'р', j: 'о', k: 'л', l: 'д', ';': 'ж', '\'': 'э', z: 'я', x: 'ч', c: 'с', v: 'м', b: 'и', n: 'т', m: 'ь', ',': 'б', '.': 'ю', Q: 'Й', W: 'Ц', E: 'У', R: 'К', T: 'Е', Y: 'Н', U: 'Г', I: 'Ш', O: 'Щ', P: 'З', '{': 'Х', '}': 'Ъ', A: 'Ф', S: 'Ы', D: 'В', F: 'А', G: 'П', H: 'Р', J: 'О', K: 'Л', L: 'Д', ':': 'Ж', '"': 'Э', Z: '?', X: 'ч', C: 'С', V: 'М', B: 'И', N: 'Т', M: 'Ь', '<': 'Б', '>': 'Ю', '`': 'ё', '~': 'Ё',
+    };
+    const value = string.split('');
+    let removeSpace = false;
+    if (value.slice(-1)[0] === ' ') {
+      value.pop();
+      removeSpace = true;
+    }
+    const lastChar = value.slice(-1)[0];
+    Object.keys(letters).forEach((letter) => {
+      if (letter === lastChar) {
+        value.pop();
+        value.push(letters[letter]);
+      }
+    });
+    if (removeSpace) {
+      value.push(' ');
+    }
+    return value.join('');
+  }
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    let value = event.target.value;
+    if (this.props.translate) {
+      value = this.switchLanguage(value);
+    }
+    if (this.props.firstCapital) {
+      value = value.toLowerCase();
+      value = value.charAt(0).toUpperCase() + value.slice(1);
+    }
     this.setState({query: value, inputQuery: value, suggestionsVisible: true}, () => {
       if (this.props.validate){
         this.props.validate(value);
@@ -212,7 +247,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   };
 
   onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.which == 40) {
+    if (event.key === 'ArrowDown') {
       // Arrow down
       event.preventDefault();
       if (this.state.suggestionIndex < this.state.suggestions.length) {
@@ -220,7 +255,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
         const newInputQuery = this.state.suggestions[newSuggestionIndex].value;
         this.setState({suggestionIndex: newSuggestionIndex, query: newInputQuery})
       }
-    } else if (event.which == 38) {
+    } else if (event.key === 'ArrowUp') {
       // Arrow up
       event.preventDefault();
       if (this.state.suggestionIndex >= 0) {
@@ -228,11 +263,16 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
         const newInputQuery = newSuggestionIndex == -1 ? this.state.inputQuery : this.state.suggestions[newSuggestionIndex].value;
         this.setState({suggestionIndex: newSuggestionIndex, query: newInputQuery})
       }
-    } else if (event.which == 13) {
+    } else if (event.key === 'Enter') {
       // Enter
       event.preventDefault();
       if (this.state.suggestionIndex >= 0) {
         this.selectSuggestion(this.state.suggestionIndex);
+      }
+    } else if (event.key === 'Tab') {
+      // Tab
+      if (this.state.suggestionIndex >= 0) {
+        this.selectSuggestion(this.state.suggestionIndex, true);
       }
     }
   };
@@ -253,6 +293,12 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit";
       params = {
         query: this.state.query,
+      };
+    } else if (this.props.suggestionType === 'fio') {
+      url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
+      params = {
+        query: this.state.query,
+        parts: this.props.parts,
       };
     } else if (this.props.suggestionType === 'party') {
       url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";
@@ -305,11 +351,13 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     this.selectSuggestion(index);
   };
 
-  selectSuggestion = (index: number) => {
+  selectSuggestion = (index: number, skipSetCursorFlag?: boolean) => {
     if (this.state.suggestions.length >= index - 1) {
       this.setState({query: this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: this.state.suggestions[index].value}, () => {
         this.fetchSuggestions();
-        setTimeout(() => this.setCursorToEnd(this.textInput), 100);
+        if (typeof skipSetCursorFlag === 'undefined') {
+          setTimeout(() => this.setCursorToEnd(this.textInput), 100);
+        }
       });
 
       if (this.props.onChange) {
@@ -374,6 +422,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
               return <div key={suggestion.data.inn} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/><div className="react-dadata__suggestion__subtext"><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.inn}/> <Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.data.address.value}/></div></div>
             } else if (this.props.suggestionType === 'fms') {
               return <div key={`${suggestion.value}${suggestion.data.code}`} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
+            } else if (this.props.suggestionType === 'fio') {
+              return <div key={`${suggestion.value}`} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             } else {
               return <div key={suggestion.value} onTouchStart={this.onSuggestionTouch.bind(this, index)} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             }

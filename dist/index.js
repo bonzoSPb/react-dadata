@@ -36,8 +36,37 @@ var ReactDadata = (function (_super) {
             var _a = _this.props.onBlur, onBlur = _a === void 0 ? function () { } : _a;
             onBlur(e);
         };
+        _this.switchLanguage = function (string) {
+            var letters = {
+                q: 'й', w: 'ц', e: 'у', r: 'к', t: 'е', y: 'н', u: 'г', i: 'ш', o: 'щ', p: 'з', '[': 'х', ']': 'ъ', a: 'ф', s: 'ы', d: 'в', f: 'а', g: 'п', h: 'р', j: 'о', k: 'л', l: 'д', ';': 'ж', '\'': 'э', z: 'я', x: 'ч', c: 'с', v: 'м', b: 'и', n: 'т', m: 'ь', ',': 'б', '.': 'ю', Q: 'Й', W: 'Ц', E: 'У', R: 'К', T: 'Е', Y: 'Н', U: 'Г', I: 'Ш', O: 'Щ', P: 'З', '{': 'Х', '}': 'Ъ', A: 'Ф', S: 'Ы', D: 'В', F: 'А', G: 'П', H: 'Р', J: 'О', K: 'Л', L: 'Д', ':': 'Ж', '"': 'Э', Z: '?', X: 'ч', C: 'С', V: 'М', B: 'И', N: 'Т', M: 'Ь', '<': 'Б', '>': 'Ю', '`': 'ё', '~': 'Ё',
+            };
+            var value = string.split('');
+            var removeSpace = false;
+            if (value.slice(-1)[0] === ' ') {
+                value.pop();
+                removeSpace = true;
+            }
+            var lastChar = value.slice(-1)[0];
+            Object.keys(letters).forEach(function (letter) {
+                if (letter === lastChar) {
+                    value.pop();
+                    value.push(letters[letter]);
+                }
+            });
+            if (removeSpace) {
+                value.push(' ');
+            }
+            return value.join('');
+        };
         _this.onInputChange = function (event) {
             var value = event.target.value;
+            if (_this.props.translate) {
+                value = _this.switchLanguage(value);
+            }
+            if (_this.props.firstCapital) {
+                value = value.toLowerCase();
+                value = value.charAt(0).toUpperCase() + value.slice(1);
+            }
             _this.setState({ query: value, inputQuery: value, suggestionsVisible: true }, function () {
                 if (_this.props.validate) {
                     _this.props.validate(value);
@@ -54,7 +83,7 @@ var ReactDadata = (function (_super) {
             });
         };
         _this.onKeyPress = function (event) {
-            if (event.which == 40) {
+            if (event.key === 'ArrowDown') {
                 // Arrow down
                 event.preventDefault();
                 if (_this.state.suggestionIndex < _this.state.suggestions.length) {
@@ -63,7 +92,7 @@ var ReactDadata = (function (_super) {
                     _this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
                 }
             }
-            else if (event.which == 38) {
+            else if (event.key === 'ArrowUp') {
                 // Arrow up
                 event.preventDefault();
                 if (_this.state.suggestionIndex >= 0) {
@@ -72,11 +101,17 @@ var ReactDadata = (function (_super) {
                     _this.setState({ suggestionIndex: newSuggestionIndex, query: newInputQuery });
                 }
             }
-            else if (event.which == 13) {
+            else if (event.key === 'Enter') {
                 // Enter
                 event.preventDefault();
                 if (_this.state.suggestionIndex >= 0) {
                     _this.selectSuggestion(_this.state.suggestionIndex);
+                }
+            }
+            else if (event.key === 'Tab') {
+                // Tab
+                if (_this.state.suggestionIndex >= 0) {
+                    _this.selectSuggestion(_this.state.suggestionIndex, true);
                 }
             }
         };
@@ -97,6 +132,13 @@ var ReactDadata = (function (_super) {
                 url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fms_unit";
                 params = {
                     query: _this.state.query,
+                };
+            }
+            else if (_this.props.suggestionType === 'fio') {
+                url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
+                params = {
+                    query: _this.state.query,
+                    parts: _this.props.parts,
                 };
             }
             else if (_this.props.suggestionType === 'party') {
@@ -146,11 +188,13 @@ var ReactDadata = (function (_super) {
             event.stopPropagation();
             _this.selectSuggestion(index);
         };
-        _this.selectSuggestion = function (index) {
+        _this.selectSuggestion = function (index, skipSetCursorFlag) {
             if (_this.state.suggestions.length >= index - 1) {
                 _this.setState({ query: _this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: _this.state.suggestions[index].value }, function () {
                     _this.fetchSuggestions();
-                    setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
+                    if (typeof skipSetCursorFlag === 'undefined') {
+                        setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
+                    }
                 });
                 if (_this.props.onChange) {
                     _this.props.onChange(_this.state.suggestions[index]);
@@ -178,6 +222,7 @@ var ReactDadata = (function (_super) {
             query: _this.props.query ? _this.props.query : '',
             inputQuery: _this.props.query ? _this.props.query : '',
             inputFocused: false,
+            inputBlur: false,
             suggestions: [],
             suggestionIndex: -1,
             suggestionsVisible: true,
@@ -226,6 +271,10 @@ var ReactDadata = (function (_super) {
                     }
                     else if (_this.props.suggestionType === 'fms') {
                         return React.createElement("div", { key: "" + suggestion.value + suggestion.data.code, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                            React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
+                    }
+                    else if (_this.props.suggestionType === 'fio') {
+                        return React.createElement("div", { key: "" + suggestion.value, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else {

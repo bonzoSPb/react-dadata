@@ -115,7 +115,10 @@ export declare namespace ReactDadata {
         autocomplete?: string;
         validate?: (value: string) => void;
         bounds: string;
+        parts?: [string];
         country: string;
+        translate?: boolean;
+        firstCapital?: boolean;
         name: string;
         disabled: boolean;
         readOnly: boolean;
@@ -129,6 +132,7 @@ export declare namespace ReactDadata {
         query: string;
         inputQuery: string;
         inputFocused: boolean;
+        inputBlur: boolean;
         suggestions: Array<DadataSuggestion>;
         suggestionIndex: number;
         suggestionsVisible: boolean;
@@ -149,12 +153,13 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     componentDidUpdate(prevProps: any): void;
     onInputFocus: (e: any) => void;
     onInputBlur: (e: any) => void;
+    switchLanguage: (string: any) => any;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     fetchSuggestions: () => void;
     onSuggestionClick: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;
     onSuggestionTouch: (index: number, event: React.TouchEvent<HTMLDivElement>) => void;
-    selectSuggestion: (index: number) => void;
+    selectSuggestion: (index: number, skipSetCursorFlag?: boolean | undefined) => void;
     setCursorToEnd: (element: any) => void;
     getHighlightWords: () => string[];
     render(): JSX.Element;
