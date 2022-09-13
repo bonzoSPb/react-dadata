@@ -61,7 +61,6 @@ var ReactDadata = (function (_super) {
                 if (_this.props.validate) {
                     _this.props.validate(value);
                 }
-                ;
                 if (_this.props.onChange) {
                     _this.props.onChange({
                         value: value,
@@ -249,7 +248,7 @@ var ReactDadata = (function (_super) {
                             React.createElement("div", { className: "react-dadata__suggestion__subtext" },
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.bic }),
                                 " ",
-                                React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address.value })));
+                                React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address ? suggestion.data.address.value : '' })));
                     }
                     else if (_this.props.suggestionType === 'party') {
                         return React.createElement("div", { key: suggestion.data.inn, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
@@ -257,7 +256,7 @@ var ReactDadata = (function (_super) {
                             React.createElement("div", { className: "react-dadata__suggestion__subtext" },
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.inn }),
                                 " ",
-                                React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address.value })));
+                                React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address ? suggestion.data.address.value : '' })));
                     }
                     else if (_this.props.suggestionType === 'fms') {
                         return React.createElement("div", { key: "" + suggestion.value + suggestion.data.code, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
