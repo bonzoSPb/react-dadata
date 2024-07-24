@@ -114,6 +114,8 @@ export namespace ReactDadata {
     autocomplete?: string
     validate?: (value: string) => void
     bounds: string
+    from_bound: string
+    to_bound: string
     parts?: [string],
     country: string
     translate?: boolean,
@@ -301,10 +303,10 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
         query: this.state.query,
         count: 10,
         to_bound: {
-          value: this.props.bounds,
+          value: this.props.to_bound ? this.props. to_bound : this.props.bounds,
         },
         from_bound: {
-          value: this.props.bounds,
+          value: this.props.from_bound ? this.props.from_bound : this.props.bounds,
         },
         locations: [{
           country: this.props.country,

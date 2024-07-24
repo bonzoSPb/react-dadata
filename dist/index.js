@@ -142,10 +142,10 @@ var ReactDadata = (function (_super) {
                     query: _this.state.query,
                     count: 10,
                     to_bound: {
-                        value: _this.props.bounds,
+                        value: _this.props.to_bound ? _this.props.to_bound : _this.props.bounds,
                     },
                     from_bound: {
-                        value: _this.props.bounds,
+                        value: _this.props.from_bound ? _this.props.from_bound : _this.props.bounds,
                     },
                     locations: [{
                             country: _this.props.country,

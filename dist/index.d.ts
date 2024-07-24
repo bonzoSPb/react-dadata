@@ -115,6 +115,8 @@ export declare namespace ReactDadata {
         autocomplete?: string;
         validate?: (value: string) => void;
         bounds: string;
+        from_bound: string;
+        to_bound: string;
         parts?: [string];
         country: string;
         translate?: boolean;
