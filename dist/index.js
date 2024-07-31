@@ -170,8 +170,6 @@ var ReactDadata = (function (_super) {
             };
         };
         _this.onSuggestionClick = function (index, event) {
-            console.log(index);
-            console.log(event);
             event.stopPropagation();
             _this.selectSuggestion(index);
         };
