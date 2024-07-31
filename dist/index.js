@@ -180,19 +180,14 @@ var ReactDadata = (function (_super) {
             _this.selectSuggestion(index);
         };
         _this.selectSuggestion = function (index, skipSetCursorFlag) {
-            console.log('a');
             if (_this.state.suggestions.length >= index - 1) {
-                console.log('b');
                 _this.setState({ query: _this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: _this.state.suggestions[index].value }, function () {
                     _this.fetchSuggestions();
                     if (typeof skipSetCursorFlag === 'undefined') {
-                        console.log('s');
                         setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
                     }
                 });
-                console.log('c');
                 if (_this.props.onChange) {
-                    console.log('d');
                     _this.props.onChange(_this.state.suggestions[index]);
                 }
             }
@@ -250,7 +245,7 @@ var ReactDadata = (function (_super) {
                         suggestionClass += ' react-dadata__suggestion--current';
                     }
                     if (_this.props.suggestionType === 'bank') {
-                        return React.createElement("div", { key: suggestion.data.bic, onClick: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: suggestion.data.bic, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }),
                             React.createElement("div", { className: "react-dadata__suggestion__subtext" },
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.bic }),
@@ -258,7 +253,7 @@ var ReactDadata = (function (_super) {
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address ? suggestion.data.address.value : '' })));
                     }
                     else if (_this.props.suggestionType === 'party') {
-                        return React.createElement("div", { key: suggestion.data.inn, onClick: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: suggestion.data.inn, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }),
                             React.createElement("div", { className: "react-dadata__suggestion__subtext" },
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.inn }),
@@ -266,11 +261,11 @@ var ReactDadata = (function (_super) {
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address ? suggestion.data.address.value : '' })));
                     }
                     else if (_this.props.suggestionType === 'fms') {
-                        return React.createElement("div", { key: "" + suggestion.value + suggestion.data.code, onClick: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: "" + suggestion.value + suggestion.data.code, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else if (_this.props.suggestionType === 'fio') {
-                        return React.createElement("div", { key: "" + suggestion.value, onClick: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: "" + suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else {
