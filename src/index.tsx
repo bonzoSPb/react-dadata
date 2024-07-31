@@ -333,7 +333,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     };
   };
 
-  onSuggestionClick = (index: number, event: React.MouseEvent<HTMLDivElement>) => {
+  onSuggestionClick = (index: number, event: any) => {
     console.log(index);
     console.log(event);
     event.stopPropagation();
