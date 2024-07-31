@@ -243,7 +243,7 @@ var ReactDadata = (function (_super) {
                         suggestionClass += ' react-dadata__suggestion--current';
                     }
                     if (_this.props.suggestionType === 'bank') {
-                        return React.createElement("div", { key: suggestion.data.bic, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: suggestion.data.bic, onClick: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }),
                             React.createElement("div", { className: "react-dadata__suggestion__subtext" },
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.bic }),
@@ -251,7 +251,7 @@ var ReactDadata = (function (_super) {
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address ? suggestion.data.address.value : '' })));
                     }
                     else if (_this.props.suggestionType === 'party') {
-                        return React.createElement("div", { key: suggestion.data.inn, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: suggestion.data.inn, onClick: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }),
                             React.createElement("div", { className: "react-dadata__suggestion__subtext" },
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.inn }),
@@ -259,15 +259,15 @@ var ReactDadata = (function (_super) {
                                 React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.data.address ? suggestion.data.address.value : '' })));
                     }
                     else if (_this.props.suggestionType === 'fms') {
-                        return React.createElement("div", { key: "" + suggestion.value + suggestion.data.code, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: "" + suggestion.value + suggestion.data.code, onClick: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else if (_this.props.suggestionType === 'fio') {
-                        return React.createElement("div", { key: "" + suggestion.value, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: "" + suggestion.value, onClick: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else {
-                        return React.createElement("div", { key: suggestion.value, onTouchStart: _this.onSuggestionTouch.bind(_this, index), onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: suggestion.value, onClick: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                 }))));
