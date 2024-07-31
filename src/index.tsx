@@ -334,6 +334,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   };
 
   onSuggestionClick = (index: number, event: React.MouseEvent<HTMLDivElement>) => {
+    console.log(index);
+    console.log(event);
     event.stopPropagation();
     this.selectSuggestion(index);
   };
@@ -344,15 +346,19 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   };
 
   selectSuggestion = (index: number, skipSetCursorFlag?: boolean) => {
+    console.log('a');
     if (this.state.suggestions.length >= index - 1) {
+      console.log('b');
       this.setState({query: this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: this.state.suggestions[index].value}, () => {
         this.fetchSuggestions();
         if (typeof skipSetCursorFlag === 'undefined') {
+          console.log('s');
           setTimeout(() => this.setCursorToEnd(this.textInput), 100);
         }
       });
-
+      console.log('c');
       if (this.props.onChange) {
+        console.log('d');
         this.props.onChange(this.state.suggestions[index]);
       }
     }
@@ -417,7 +423,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
             } else if (this.props.suggestionType === 'fio') {
               return <div key={`${suggestion.value}`} onClick={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             } else {
-              return <div key={suggestion.value} onClick={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
+              return <div key={suggestion.value} onMouseDown={this.onSuggestionClick.bind(this, index)} className={suggestionClass}><Highlighter highlightClassName="react-dadata--highlighted" autoEscape={true} searchWords={this.getHighlightWords()} textToHighlight={suggestion.value}/></div>
             }
           })}
         </div>}

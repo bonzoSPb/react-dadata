@@ -170,6 +170,8 @@ var ReactDadata = (function (_super) {
             };
         };
         _this.onSuggestionClick = function (index, event) {
+            console.log(index);
+            console.log(event);
             event.stopPropagation();
             _this.selectSuggestion(index);
         };
@@ -178,14 +180,19 @@ var ReactDadata = (function (_super) {
             _this.selectSuggestion(index);
         };
         _this.selectSuggestion = function (index, skipSetCursorFlag) {
+            console.log('a');
             if (_this.state.suggestions.length >= index - 1) {
+                console.log('b');
                 _this.setState({ query: _this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: _this.state.suggestions[index].value }, function () {
                     _this.fetchSuggestions();
                     if (typeof skipSetCursorFlag === 'undefined') {
+                        console.log('s');
                         setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
                     }
                 });
+                console.log('c');
                 if (_this.props.onChange) {
+                    console.log('d');
                     _this.props.onChange(_this.state.suggestions[index]);
                 }
             }
@@ -267,7 +274,7 @@ var ReactDadata = (function (_super) {
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                     else {
-                        return React.createElement("div", { key: suggestion.value, onClick: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
+                        return React.createElement("div", { key: suggestion.value, onMouseDown: _this.onSuggestionClick.bind(_this, index), className: suggestionClass },
                             React.createElement(Highlighter, { highlightClassName: "react-dadata--highlighted", autoEscape: true, searchWords: _this.getHighlightWords(), textToHighlight: suggestion.value }));
                     }
                 }))));
