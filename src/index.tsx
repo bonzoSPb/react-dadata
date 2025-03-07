@@ -118,6 +118,7 @@ export namespace ReactDadata {
     to_bound: string
     parts?: [string],
     country: string
+    gender: string
     translate?: boolean,
     firstCapital?: boolean,
     name: string
@@ -291,6 +292,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       params = {
         query: this.state.query,
         parts: this.props.parts,
+        gender: this.props.gender ? this.props.gender : 'UNKNOWN'
       };
     } else if (this.props.suggestionType === 'party') {
       url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party";

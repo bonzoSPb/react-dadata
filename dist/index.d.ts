@@ -119,6 +119,7 @@ export declare namespace ReactDadata {
         to_bound: string;
         parts?: [string];
         country: string;
+        gender: string;
         translate?: boolean;
         firstCapital?: boolean;
         name: string;

@@ -128,6 +128,7 @@ var ReactDadata = (function (_super) {
                 params = {
                     query: _this.state.query,
                     parts: _this.props.parts,
+                    gender: _this.props.gender ? _this.props.gender : 'UNKNOWN'
                 };
             }
             else if (_this.props.suggestionType === 'party') {
