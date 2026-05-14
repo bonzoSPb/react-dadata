@@ -354,12 +354,12 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
         : false;
 
       this.setState({query: suggestion.value, suggestionsVisible: !shouldKeepSuggestionsOpen, inputQuery: suggestion.value}, () => {
-        this.fetchSuggestions();
-        if (typeof skipSetCursorFlag === 'undefined') {
+        if (shouldKeepSuggestionsOpen) {
+          this.fetchSuggestions();
+        }
+        if (shouldKeepSuggestionsOpen && typeof skipSetCursorFlag === 'undefined') {
           setTimeout(() => {
-            if (shouldKeepSuggestionsOpen) {
-              this.setState({inputFocused: true, suggestionsVisible: true});
-            }
+            this.setState({inputFocused: true, suggestionsVisible: true});
             this.setCursorToEnd(this.textInput);
           }, 100);
         }

@@ -185,12 +185,12 @@ var ReactDadata = (function (_super) {
                     ? _this.props.shouldKeepSuggestionsOpenOnSelect(suggestion)
                     : false;
                 _this.setState({ query: suggestion.value, suggestionsVisible: !shouldKeepSuggestionsOpen_1, inputQuery: suggestion.value }, function () {
-                    _this.fetchSuggestions();
-                    if (typeof skipSetCursorFlag === 'undefined') {
+                    if (shouldKeepSuggestionsOpen_1) {
+                        _this.fetchSuggestions();
+                    }
+                    if (shouldKeepSuggestionsOpen_1 && typeof skipSetCursorFlag === 'undefined') {
                         setTimeout(function () {
-                            if (shouldKeepSuggestionsOpen_1) {
-                                _this.setState({ inputFocused: true, suggestionsVisible: true });
-                            }
+                            _this.setState({ inputFocused: true, suggestionsVisible: true });
                             _this.setCursorToEnd(_this.textInput);
                         }, 100);
                     }
