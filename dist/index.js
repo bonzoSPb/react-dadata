@@ -171,20 +171,34 @@ var ReactDadata = (function (_super) {
             };
         };
         _this.onSuggestionClick = function (index, event) {
+            var shouldKeepSuggestionsOpen = _this.shouldKeepSuggestionsOpen(index);
+            if (shouldKeepSuggestionsOpen) {
+                event.preventDefault();
+            }
             event.stopPropagation();
-            _this.selectSuggestion(index);
+            _this.selectSuggestion(index, undefined, shouldKeepSuggestionsOpen);
         };
         _this.onSuggestionTouch = function (index, event) {
+            var shouldKeepSuggestionsOpen = _this.shouldKeepSuggestionsOpen(index);
+            if (shouldKeepSuggestionsOpen) {
+                event.preventDefault();
+            }
             event.stopPropagation();
-            _this.selectSuggestion(index);
+            _this.selectSuggestion(index, undefined, shouldKeepSuggestionsOpen);
         };
-        _this.selectSuggestion = function (index, skipSetCursorFlag) {
+        _this.shouldKeepSuggestionsOpen = function (index) {
+            var suggestion = _this.state.suggestions[index];
+            return _this.props.shouldKeepSuggestionsOpenOnSelect
+                ? _this.props.shouldKeepSuggestionsOpenOnSelect(suggestion)
+                : false;
+        };
+        _this.selectSuggestion = function (index, skipSetCursorFlag, keepSuggestionsOpen) {
             if (_this.state.suggestions.length >= index - 1) {
                 var suggestion = _this.state.suggestions[index];
-                var shouldKeepSuggestionsOpen_1 = _this.props.shouldKeepSuggestionsOpenOnSelect
-                    ? _this.props.shouldKeepSuggestionsOpenOnSelect(suggestion)
-                    : false;
-                _this.setState({ query: suggestion.value, suggestionsVisible: !shouldKeepSuggestionsOpen_1, inputQuery: suggestion.value }, function () {
+                var shouldKeepSuggestionsOpen_1 = typeof keepSuggestionsOpen === 'boolean'
+                    ? keepSuggestionsOpen
+                    : _this.shouldKeepSuggestionsOpen(index);
+                _this.setState({ query: suggestion.value, suggestionsVisible: shouldKeepSuggestionsOpen_1, inputQuery: suggestion.value }, function () {
                     if (shouldKeepSuggestionsOpen_1) {
                         _this.fetchSuggestions();
                     }

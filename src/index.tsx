@@ -337,23 +337,41 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   };
 
   onSuggestionClick = (index: number, event: React.MouseEvent<HTMLDivElement>) => {
+    const shouldKeepSuggestionsOpen = this.shouldKeepSuggestionsOpen(index);
+
+    if (shouldKeepSuggestionsOpen) {
+      event.preventDefault();
+    }
     event.stopPropagation();
-    this.selectSuggestion(index);
+    this.selectSuggestion(index, undefined, shouldKeepSuggestionsOpen);
   };
 
   onSuggestionTouch = (index: number, event: React.TouchEvent<HTMLDivElement>) => {
+    const shouldKeepSuggestionsOpen = this.shouldKeepSuggestionsOpen(index);
+
+    if (shouldKeepSuggestionsOpen) {
+      event.preventDefault();
+    }
     event.stopPropagation();
-    this.selectSuggestion(index);
+    this.selectSuggestion(index, undefined, shouldKeepSuggestionsOpen);
   };
 
-  selectSuggestion = (index: number, skipSetCursorFlag?: boolean) => {
+  shouldKeepSuggestionsOpen = (index: number) => {
+    const suggestion = this.state.suggestions[index];
+
+    return this.props.shouldKeepSuggestionsOpenOnSelect
+      ? this.props.shouldKeepSuggestionsOpenOnSelect(suggestion)
+      : false;
+  };
+
+  selectSuggestion = (index: number, skipSetCursorFlag?: boolean, keepSuggestionsOpen?: boolean) => {
     if (this.state.suggestions.length >= index - 1) {
       const suggestion = this.state.suggestions[index];
-      const shouldKeepSuggestionsOpen = this.props.shouldKeepSuggestionsOpenOnSelect
-        ? this.props.shouldKeepSuggestionsOpenOnSelect(suggestion)
-        : false;
+      const shouldKeepSuggestionsOpen = typeof keepSuggestionsOpen === 'boolean'
+        ? keepSuggestionsOpen
+        : this.shouldKeepSuggestionsOpen(index);
 
-      this.setState({query: suggestion.value, suggestionsVisible: !shouldKeepSuggestionsOpen, inputQuery: suggestion.value}, () => {
+      this.setState({query: suggestion.value, suggestionsVisible: shouldKeepSuggestionsOpen, inputQuery: suggestion.value}, () => {
         if (shouldKeepSuggestionsOpen) {
           this.fetchSuggestions();
         }
