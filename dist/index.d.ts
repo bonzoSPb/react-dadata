@@ -110,6 +110,7 @@ export declare namespace ReactDadata {
         query?: string;
         autoload?: boolean;
         onChange?: (suggestion: DadataSuggestion) => void;
+        shouldKeepSuggestionsOpenOnSelect?: (suggestion: DadataSuggestion) => boolean;
         onFocus?: (suggestion: DadataSuggestion) => void;
         onBlur?: (suggestion: DadataSuggestion) => void;
         autocomplete?: string;

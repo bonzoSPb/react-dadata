@@ -180,14 +180,23 @@ var ReactDadata = (function (_super) {
         };
         _this.selectSuggestion = function (index, skipSetCursorFlag) {
             if (_this.state.suggestions.length >= index - 1) {
-                _this.setState({ query: _this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: _this.state.suggestions[index].value }, function () {
+                var suggestion = _this.state.suggestions[index];
+                var shouldKeepSuggestionsOpen_1 = _this.props.shouldKeepSuggestionsOpenOnSelect
+                    ? _this.props.shouldKeepSuggestionsOpenOnSelect(suggestion)
+                    : false;
+                _this.setState({ query: suggestion.value, suggestionsVisible: !shouldKeepSuggestionsOpen_1, inputQuery: suggestion.value }, function () {
                     _this.fetchSuggestions();
                     if (typeof skipSetCursorFlag === 'undefined') {
-                        setTimeout(function () { return _this.setCursorToEnd(_this.textInput); }, 100);
+                        setTimeout(function () {
+                            if (shouldKeepSuggestionsOpen_1) {
+                                _this.setState({ inputFocused: true, suggestionsVisible: true });
+                            }
+                            _this.setCursorToEnd(_this.textInput);
+                        }, 100);
                     }
                 });
                 if (_this.props.onChange) {
-                    _this.props.onChange(_this.state.suggestions[index]);
+                    _this.props.onChange(suggestion);
                 }
             }
         };

@@ -109,6 +109,7 @@ export namespace ReactDadata {
     query?: string
     autoload?: boolean
     onChange?: (suggestion: DadataSuggestion) => void
+    shouldKeepSuggestionsOpenOnSelect?: (suggestion: DadataSuggestion) => boolean
     onFocus?: (suggestion: DadataSuggestion) => void
     onBlur?: (suggestion: DadataSuggestion) => void
     autocomplete?: string
@@ -347,15 +348,25 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
 
   selectSuggestion = (index: number, skipSetCursorFlag?: boolean) => {
     if (this.state.suggestions.length >= index - 1) {
-      this.setState({query: this.state.suggestions[index].value, suggestionsVisible: false, inputQuery: this.state.suggestions[index].value}, () => {
+      const suggestion = this.state.suggestions[index];
+      const shouldKeepSuggestionsOpen = this.props.shouldKeepSuggestionsOpenOnSelect
+        ? this.props.shouldKeepSuggestionsOpenOnSelect(suggestion)
+        : false;
+
+      this.setState({query: suggestion.value, suggestionsVisible: !shouldKeepSuggestionsOpen, inputQuery: suggestion.value}, () => {
         this.fetchSuggestions();
         if (typeof skipSetCursorFlag === 'undefined') {
-          setTimeout(() => this.setCursorToEnd(this.textInput), 100);
+          setTimeout(() => {
+            if (shouldKeepSuggestionsOpen) {
+              this.setState({inputFocused: true, suggestionsVisible: true});
+            }
+            this.setCursorToEnd(this.textInput);
+          }, 100);
         }
       });
 
       if (this.props.onChange) {
-        this.props.onChange(this.state.suggestions[index]);
+        this.props.onChange(suggestion);
       }
     }
   };
