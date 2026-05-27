@@ -50,6 +50,10 @@ var ReactDadata = (function (_super) {
         };
         _this.onInputChange = function (event) {
             var value = event.target.value;
+            var nativeEvent = event.nativeEvent;
+            var inputType = nativeEvent && nativeEvent.inputType;
+            var isAutocompleteInput = _this.props.hideSuggestionsOnAutocomplete
+                && inputType === 'insertReplacementText';
             if (_this.props.translate) {
                 value = _this.switchLanguage(value);
             }
@@ -57,7 +61,7 @@ var ReactDadata = (function (_super) {
                 value = value.toLowerCase();
                 value = value.charAt(0).toUpperCase() + value.slice(1);
             }
-            _this.setState({ query: value, inputQuery: value, suggestionsVisible: true }, function () {
+            _this.setState({ query: value, inputQuery: value, suggestionsVisible: !isAutocompleteInput }, function () {
                 if (_this.props.validate) {
                     _this.props.validate(value);
                 }
@@ -68,7 +72,9 @@ var ReactDadata = (function (_super) {
                         data: {},
                     });
                 }
-                _this.fetchSuggestions();
+                if (!isAutocompleteInput) {
+                    _this.fetchSuggestions();
+                }
             });
         };
         _this.onKeyPress = function (event) {

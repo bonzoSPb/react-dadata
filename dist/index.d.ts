@@ -114,6 +114,7 @@ export declare namespace ReactDadata {
         onFocus?: (suggestion: DadataSuggestion) => void;
         onBlur?: (suggestion: DadataSuggestion) => void;
         autocomplete?: string;
+        hideSuggestionsOnAutocomplete?: boolean;
         validate?: (value: string) => void;
         bounds: string;
         from_bound: string;

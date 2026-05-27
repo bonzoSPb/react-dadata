@@ -113,6 +113,7 @@ export namespace ReactDadata {
     onFocus?: (suggestion: DadataSuggestion) => void
     onBlur?: (suggestion: DadataSuggestion) => void
     autocomplete?: string
+    hideSuggestionsOnAutocomplete?: boolean
     validate?: (value: string) => void
     bounds: string
     from_bound: string
@@ -218,6 +219,11 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value;
+    const nativeEvent = event.nativeEvent as any;
+    const inputType = nativeEvent && nativeEvent.inputType;
+    const isAutocompleteInput = this.props.hideSuggestionsOnAutocomplete
+      && inputType === 'insertReplacementText';
+
     if (this.props.translate) {
       value = this.switchLanguage(value);
     }
@@ -225,7 +231,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       value = value.toLowerCase();
       value = value.charAt(0).toUpperCase() + value.slice(1);
     }
-    this.setState({query: value, inputQuery: value, suggestionsVisible: true}, () => {
+    this.setState({query: value, inputQuery: value, suggestionsVisible: !isAutocompleteInput}, () => {
       if (this.props.validate){
         this.props.validate(value);
       }
@@ -236,7 +242,9 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
           data: {},
         } as ReactDadata.DadataSuggestion);
       }
-      this.fetchSuggestions();
+      if (!isAutocompleteInput) {
+        this.fetchSuggestions();
+      }
     });
   };
 
