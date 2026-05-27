@@ -52,17 +52,8 @@ var ReactDadata = (function (_super) {
             var value = event.target.value;
             var nativeEvent = event.nativeEvent;
             var inputType = nativeEvent && nativeEvent.inputType;
-            var inputData = nativeEvent && nativeEvent.data;
-            var isSingleEventValueInsert = (inputType === 'insertText'
-                || inputType === 'insertFromPaste')
-                && typeof inputData === 'string'
-                && inputData.length > 1
-                && inputData === value
-                && !_this.state.inputQuery;
             var isAutocompleteInput = _this.props.hideSuggestionsOnAutocomplete
-                && (inputType === 'insertReplacementText'
-                    || isSingleEventValueInsert
-                    || (!inputType && nativeEvent && inputData === null && value.length > 1 && !_this.state.inputQuery));
+                && inputType === 'insertReplacementText';
             if (_this.props.translate) {
                 value = _this.switchLanguage(value);
             }
