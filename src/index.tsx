@@ -221,8 +221,21 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     let value = event.target.value;
     const nativeEvent = event.nativeEvent as any;
     const inputType = nativeEvent && nativeEvent.inputType;
+    const inputData = nativeEvent && nativeEvent.data;
+    const isSingleEventValueInsert = (
+      inputType === 'insertText'
+      || inputType === 'insertFromPaste'
+    )
+      && typeof inputData === 'string'
+      && inputData.length > 1
+      && inputData === value
+      && !this.state.inputQuery;
     const isAutocompleteInput = this.props.hideSuggestionsOnAutocomplete
-      && inputType === 'insertReplacementText';
+      && (
+        inputType === 'insertReplacementText'
+        || isSingleEventValueInsert
+        || (!inputType && nativeEvent && inputData === null && value.length > 1 && !this.state.inputQuery)
+      );
 
     if (this.props.translate) {
       value = this.switchLanguage(value);
