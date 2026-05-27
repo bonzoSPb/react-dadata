@@ -115,6 +115,7 @@ export declare namespace ReactDadata {
         onBlur?: (suggestion: DadataSuggestion) => void;
         autocomplete?: string;
         hideSuggestionsOnAutocomplete?: boolean;
+        focusNextOnAutocomplete?: boolean;
         validate?: (value: string) => void;
         bounds: string;
         from_bound: string;
@@ -160,6 +161,7 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
     onInputBlur: (e: any) => void;
     switchLanguage: (string: any) => any;
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    focusNextField: () => void;
     onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     fetchSuggestions: () => void;
     onSuggestionClick: (index: number, event: React.MouseEvent<HTMLDivElement>) => void;

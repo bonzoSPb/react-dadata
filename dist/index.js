@@ -84,7 +84,27 @@ var ReactDadata = (function (_super) {
                 if (!isAutocompleteInput) {
                     _this.fetchSuggestions();
                 }
+                else if (_this.props.focusNextOnAutocomplete) {
+                    _this.focusNextField();
+                }
             });
+        };
+        _this.focusNextField = function () {
+            if (!_this.textInput)
+                return;
+            var root = typeof _this.textInput.getRootNode === 'function'
+                ? _this.textInput.getRootNode()
+                : document;
+            var fields = Array.prototype.slice.call(root.querySelectorAll([
+                'input:not([type="hidden"]):not([disabled]):not([readonly])',
+                'textarea:not([disabled]):not([readonly])',
+                'select:not([disabled])',
+            ].join(',')));
+            var currentIndex = fields.indexOf(_this.textInput);
+            var nextField = currentIndex >= 0 ? fields[currentIndex + 1] : null;
+            if (nextField && typeof nextField.focus === 'function') {
+                nextField.focus();
+            }
         };
         _this.onKeyPress = function (event) {
             if (event.key === 'ArrowDown') {

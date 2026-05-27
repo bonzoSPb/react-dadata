@@ -114,6 +114,7 @@ export namespace ReactDadata {
     onBlur?: (suggestion: DadataSuggestion) => void
     autocomplete?: string
     hideSuggestionsOnAutocomplete?: boolean
+    focusNextOnAutocomplete?: boolean
     validate?: (value: string) => void
     bounds: string
     from_bound: string
@@ -255,8 +256,29 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       }
       if (!isAutocompleteInput) {
         this.fetchSuggestions();
+      } else if (this.props.focusNextOnAutocomplete) {
+        this.focusNextField();
       }
     });
+  };
+
+  focusNextField = () => {
+    if (!this.textInput) return;
+
+    const root = typeof (this.textInput as any).getRootNode === 'function'
+      ? (this.textInput as any).getRootNode()
+      : document;
+    const fields = Array.prototype.slice.call(root.querySelectorAll([
+      'input:not([type="hidden"]):not([disabled]):not([readonly])',
+      'textarea:not([disabled]):not([readonly])',
+      'select:not([disabled])',
+    ].join(',')));
+    const currentIndex = fields.indexOf(this.textInput);
+    const nextField = currentIndex >= 0 ? fields[currentIndex + 1] : null;
+
+    if (nextField && typeof nextField.focus === 'function') {
+      nextField.focus();
+    }
   };
 
   onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
