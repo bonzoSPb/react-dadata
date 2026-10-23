@@ -18,6 +18,13 @@ var ReactDadata = (function (_super) {
     __extends(ReactDadata, _super);
     function ReactDadata(props) {
         var _this = _super.call(this, props) || this;
+        _this.suggestionFocusTimeout = null;
+        _this.clearSuggestionFocusTimeout = function () {
+            if (_this.suggestionFocusTimeout !== null) {
+                window.clearTimeout(_this.suggestionFocusTimeout);
+                _this.suggestionFocusTimeout = null;
+            }
+        };
         _this.onInputFocus = function (e) {
             if (!_this.props.readOnly) {
                 _this.setState({ inputFocused: true });
@@ -29,6 +36,7 @@ var ReactDadata = (function (_super) {
             onFocus(e);
         };
         _this.onInputBlur = function (e) {
+            _this.clearSuggestionFocusTimeout();
             _this.setState({ inputFocused: false });
             if (_this.state.suggestions.length == 0) {
                 _this.fetchSuggestions();
@@ -49,6 +57,7 @@ var ReactDadata = (function (_super) {
             return value.join('');
         };
         _this.onInputChange = function (event) {
+            _this.clearSuggestionFocusTimeout();
             var value = event.target.value;
             var nativeEvent = event.nativeEvent;
             var inputType = nativeEvent && nativeEvent.inputType;
@@ -134,6 +143,7 @@ var ReactDadata = (function (_super) {
             }
             else if (event.key === 'Tab') {
                 // Tab
+                _this.clearSuggestionFocusTimeout();
                 if (_this.state.suggestionIndex >= 0) {
                     _this.selectSuggestion(_this.state.suggestionIndex, true);
                 }
@@ -207,7 +217,7 @@ var ReactDadata = (function (_super) {
         };
         _this.onSuggestionClick = function (index, event) {
             var shouldKeepSuggestionsOpen = _this.shouldKeepSuggestionsOpen(index);
-            // Preserve input focus when the selected suggestion row is removed.
+            // Сохраняем фокус в поле, когда выбранная строка подсказки удаляется.
             event.preventDefault();
             event.stopPropagation();
             _this.selectSuggestion(index, undefined, shouldKeepSuggestionsOpen);
@@ -227,24 +237,34 @@ var ReactDadata = (function (_super) {
                 : false;
         };
         _this.selectSuggestion = function (index, skipSetCursorFlag, keepSuggestionsOpen) {
+            _this.clearSuggestionFocusTimeout();
             if (_this.state.suggestions.length >= index - 1) {
-                var suggestion = _this.state.suggestions[index];
+                var suggestion_1 = _this.state.suggestions[index];
                 var shouldKeepSuggestionsOpen_1 = typeof keepSuggestionsOpen === 'boolean'
                     ? keepSuggestionsOpen
                     : _this.shouldKeepSuggestionsOpen(index);
-                _this.setState({ query: suggestion.value, suggestionsVisible: shouldKeepSuggestionsOpen_1, inputQuery: suggestion.value }, function () {
+                _this.setState({ query: suggestion_1.value, suggestionsVisible: shouldKeepSuggestionsOpen_1, inputQuery: suggestion_1.value }, function () {
                     if (shouldKeepSuggestionsOpen_1) {
                         _this.fetchSuggestions();
                     }
                     if (shouldKeepSuggestionsOpen_1 && typeof skipSetCursorFlag === 'undefined') {
-                        setTimeout(function () {
+                        _this.suggestionFocusTimeout = window.setTimeout(function () {
+                            _this.suggestionFocusTimeout = null;
+                            if (!_this.textInput || _this.state.query !== suggestion_1.value)
+                                return;
+                            var root = typeof _this.textInput.getRootNode === 'function'
+                                ? _this.textInput.getRootNode()
+                                : document;
+                            // Сохраняем задержку, но не возвращаем курсор после перехода пользователя в другое поле.
+                            if (root.activeElement !== _this.textInput)
+                                return;
                             _this.setState({ inputFocused: true, suggestionsVisible: true });
                             _this.setCursorToEnd(_this.textInput);
                         }, 100);
                     }
                 });
                 if (_this.props.onChange) {
-                    _this.props.onChange(suggestion);
+                    _this.props.onChange(suggestion_1);
                 }
             }
         };
@@ -283,6 +303,9 @@ var ReactDadata = (function (_super) {
         }
     };
     ;
+    ReactDadata.prototype.componentWillUnmount = function () {
+        this.clearSuggestionFocusTimeout();
+    };
     ReactDadata.prototype.componentDidUpdate = function (prevProps) {
         if (this.props.query !== prevProps.query) {
             this.setState({ query: this.props.query ? this.props.query : '' });

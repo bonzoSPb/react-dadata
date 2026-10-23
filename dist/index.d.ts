@@ -154,8 +154,11 @@ export declare class ReactDadata extends React.PureComponent<ReactDadata.Props, 
      * XMLHttpRequest instance
      */
     protected xhr: XMLHttpRequest;
+    protected suggestionFocusTimeout: number | null;
     constructor(props: ReactDadata.Props);
     componentDidMount(): void;
+    componentWillUnmount(): void;
+    protected clearSuggestionFocusTimeout: () => void;
     componentDidUpdate(prevProps: any): void;
     onInputFocus: (e: any) => void;
     onInputBlur: (e: any) => void;

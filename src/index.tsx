@@ -158,6 +158,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
    */
   protected xhr: XMLHttpRequest;
 
+  protected suggestionFocusTimeout: number | null = null;
+
   constructor(props: ReactDadata.Props) {
     super(props);
 
@@ -179,6 +181,17 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
     }
   };
 
+  componentWillUnmount() {
+    this.clearSuggestionFocusTimeout();
+  }
+
+  protected clearSuggestionFocusTimeout = () => {
+    if (this.suggestionFocusTimeout !== null) {
+      window.clearTimeout(this.suggestionFocusTimeout);
+      this.suggestionFocusTimeout = null;
+    }
+  };
+
   componentDidUpdate(prevProps) {
     if (this.props.query !== prevProps.query) {
       this.setState({ query: this.props.query ? this.props.query : '' });
@@ -197,6 +210,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   };
 
   onInputBlur = (e) => {
+    this.clearSuggestionFocusTimeout();
     this.setState({inputFocused: false});
     if (this.state.suggestions.length == 0) {
       this.fetchSuggestions();
@@ -219,6 +233,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   }
 
   onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.clearSuggestionFocusTimeout();
     let value = event.target.value;
     const nativeEvent = event.nativeEvent as any;
     const inputType = nativeEvent && nativeEvent.inputType;
@@ -306,6 +321,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
       }
     } else if (event.key === 'Tab') {
       // Tab
+      this.clearSuggestionFocusTimeout();
       if (this.state.suggestionIndex >= 0) {
         this.selectSuggestion(this.state.suggestionIndex, true);
       }
@@ -380,7 +396,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   onSuggestionClick = (index: number, event: React.MouseEvent<HTMLDivElement>) => {
     const shouldKeepSuggestionsOpen = this.shouldKeepSuggestionsOpen(index);
 
-    // Preserve input focus when the selected suggestion row is removed.
+    // Сохраняем фокус в поле, когда выбранная строка подсказки удаляется.
     event.preventDefault();
     event.stopPropagation();
     this.selectSuggestion(index, undefined, shouldKeepSuggestionsOpen);
@@ -405,6 +421,7 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   };
 
   selectSuggestion = (index: number, skipSetCursorFlag?: boolean, keepSuggestionsOpen?: boolean) => {
+    this.clearSuggestionFocusTimeout();
     if (this.state.suggestions.length >= index - 1) {
       const suggestion = this.state.suggestions[index];
       const shouldKeepSuggestionsOpen = typeof keepSuggestionsOpen === 'boolean'
@@ -416,7 +433,16 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
           this.fetchSuggestions();
         }
         if (shouldKeepSuggestionsOpen && typeof skipSetCursorFlag === 'undefined') {
-          setTimeout(() => {
+          this.suggestionFocusTimeout = window.setTimeout(() => {
+            this.suggestionFocusTimeout = null;
+            if (!this.textInput || this.state.query !== suggestion.value) return;
+
+            const root = typeof (this.textInput as any).getRootNode === 'function'
+              ? (this.textInput as any).getRootNode()
+              : document;
+            // Сохраняем задержку, но не возвращаем курсор после перехода пользователя в другое поле.
+            if (root.activeElement !== this.textInput) return;
+
             this.setState({inputFocused: true, suggestionsVisible: true});
             this.setCursorToEnd(this.textInput);
           }, 100);
