@@ -207,9 +207,8 @@ var ReactDadata = (function (_super) {
         };
         _this.onSuggestionClick = function (index, event) {
             var shouldKeepSuggestionsOpen = _this.shouldKeepSuggestionsOpen(index);
-            if (shouldKeepSuggestionsOpen) {
-                event.preventDefault();
-            }
+            // Preserve input focus when the selected suggestion row is removed.
+            event.preventDefault();
             event.stopPropagation();
             _this.selectSuggestion(index, undefined, shouldKeepSuggestionsOpen);
         };

@@ -380,9 +380,8 @@ export class ReactDadata extends React.PureComponent<ReactDadata.Props, ReactDad
   onSuggestionClick = (index: number, event: React.MouseEvent<HTMLDivElement>) => {
     const shouldKeepSuggestionsOpen = this.shouldKeepSuggestionsOpen(index);
 
-    if (shouldKeepSuggestionsOpen) {
-      event.preventDefault();
-    }
+    // Preserve input focus when the selected suggestion row is removed.
+    event.preventDefault();
     event.stopPropagation();
     this.selectSuggestion(index, undefined, shouldKeepSuggestionsOpen);
   };
